@@ -1,0 +1,22 @@
+version: 2
+updates:
+  # Keep npm dependencies (currently none, but future-proofed) patched.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+
+  # Keep GitHub Actions used in workflows on current, patched releases.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "github-actions"

@@ -62,3 +62,27 @@ Edit the URL lists in `config/sitemap-links.json`:
 Each is a plain array of URL strings — `lastmod` is resolved automatically
 at build time, so there's nothing else to edit. Then run `npm run build`
 and commit changes.
+
+## Automated maintenance (no human intervention required)
+
+This is a solo-maintained repo, so it's set up to keep itself current safely:
+
+- **`.github/dependabot.yml`** — opens weekly PRs to bump npm dependencies
+  and GitHub Actions versions used in workflows.
+- **`.github/workflows/ci.yml`** — runs on every PR and push to `main`:
+  installs deps, runs `npm audit --audit-level=high`, and runs
+  `npm run build` to make sure the sitemap generator still executes
+  cleanly. This is the check the auto-merge workflow waits on.
+- **`.github/workflows/dependabot-auto-merge.yml`** — auto-merges Dependabot
+  PRs once CI passes, but **only** for patch/minor version bumps. Major
+  version bumps are left open with a comment flagging them for manual
+  review, since those are the ones most likely to contain breaking changes.
+- **`.github/workflows/sitemap-indexing.yml`** — weekly (Mondays) rebuilds
+  the sitemaps from live data and pings Google/Bing; commits changes back
+  to `main` directly if anything changed.
+- Repo-level `allow_auto_merge` and Dependabot security updates/alerts are
+  enabled so vulnerable dependencies get patched automatically too.
+
+Nothing here requires secrets beyond the default `GITHUB_TOKEN`, and major
+upgrades always wait for a human — the goal is safe, low-noise upkeep, not
+silent unattended risk-taking.
