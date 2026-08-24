@@ -1,0 +1,11 @@
+{
+  "name": "www-javan-de",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:sitemap": "node scripts/generate-sitemaps.mjs",
+    "build": "npm run generate:sitemap",
+    "submit:sitemap": "node scripts/submit-sitemaps.mjs"
+  }
+}

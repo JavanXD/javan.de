@@ -1,0 +1,29 @@
+{
+  "rootPages": [
+    "https://javan.de/",
+    "https://www.javan.de/"
+  ],
+  "subdomainPages": [
+    "https://projects.javan.de/",
+    "https://blog.javan.de/",
+    "https://about.javan.de/",
+    "https://newsletter.javan.de/",
+    "https://luna.javan.de/",
+    "https://flights.javan.de/",
+    "https://algocue.javan.de/",
+    "https://training.javan.de/",
+    "https://conference-tracker.javan.de/",
+    "https://tt-cheatsheet.javan.de/",
+    "https://unagentic.javan.de/",
+    "https://cf-relay.javan.de/",
+    "https://aroundtheworld.javan.de/"
+  ],
+  "projectAndHistoricPages": [
+    "https://javan.de/pihole-dns-blocklists-adlists-auto-updater/",
+    "https://javan.de/condition-injection/",
+    "https://javanxd.github.io/sudoku/"
+  ],
+  "externalSitemaps": [
+    "https://projects.javan.de/sitemap.xml"
+  ]
+}

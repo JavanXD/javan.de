@@ -1,0 +1,49 @@
+name: Build and submit sitemaps
+
+on:
+  schedule:
+    - cron: "25 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sitemap-indexing
+  cancel-in-progress: false
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Generate sitemap files
+        run: npm run build
+
+      - name: Commit sitemap updates
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          if git diff --quiet -- public/sitemap.xml public/sitemap-main.xml public/sitemap-subdomains.xml public/sitemap-projects.xml public/robots.txt; then
+            echo "Sitemaps already up to date."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add public/sitemap.xml public/sitemap-main.xml public/sitemap-subdomains.xml public/sitemap-projects.xml public/robots.txt
+            git commit -m "chore: refresh sitemap index and sitemap files"
+            git pull --rebase origin "$DEFAULT_BRANCH"
+            git push origin "HEAD:$DEFAULT_BRANCH"
+          fi
+
+      - name: Submit sitemap pings
+        run: npm run submit:sitemap
