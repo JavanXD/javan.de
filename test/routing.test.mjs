@@ -5,16 +5,38 @@ import { BLOG_FEED, BLOG_ORIGIN, decide, SHORT_LINKS, slugSetFrom } from "../src
 
 const slugSet = slugSetFrom(slugs);
 
-function url(path) {
-  return new URL(path, "https://javan.de");
+function url(path, host = "https://javan.de") {
+  return new URL(path, host);
 }
 
 test("serves the landing page for / and static files", () => {
   assert.equal(decide(url("/"), slugSet).type, "asset");
   assert.equal(decide(url("/index.html"), slugSet).type, "asset");
   assert.equal(decide(url("/blinky.svg"), slugSet).type, "asset");
+  assert.equal(decide(url("/favicon.ico"), slugSet).type, "asset");
   assert.equal(decide(url("/robots.txt"), slugSet).type, "asset");
   assert.equal(decide(url("/sitemap.xml"), slugSet).type, "asset");
+});
+
+test("redirects www.javan.de to apex preserving path and query", () => {
+  const home = decide(url("/", "https://www.javan.de"), slugSet);
+  assert.equal(home.type, "redirect");
+  assert.equal(home.status, 301);
+  assert.equal(home.location, "https://javan.de/");
+
+  const withPath = decide(url("/zoom?x=1", "https://www.javan.de"), slugSet);
+  assert.equal(withPath.type, "redirect");
+  assert.equal(withPath.status, 301);
+  assert.equal(withPath.location, "https://javan.de/zoom?x=1");
+
+  const article = decide(url("/the-future-security-engineer/", "https://www.javan.de"), slugSet);
+  assert.equal(article.type, "redirect");
+  assert.equal(article.location, "https://javan.de/the-future-security-engineer/");
+});
+
+test("does not redirect apex or workers.dev hosts via www rule", () => {
+  assert.equal(decide(url("/"), slugSet).type, "asset");
+  assert.equal(decide(url("/", "https://www-javan.example.workers.dev"), slugSet).type, "asset");
 });
 
 test("redirects RSS URLs to the static blog feed", () => {

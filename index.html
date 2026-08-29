@@ -7,7 +7,7 @@
   <meta name="author" content="Javan Rasokat">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'sha256-HGBoSXsXxe69PAc1cswtAGK2tgVqT4lKwjw59B+o4Hs=' 'sha256-w2fDWtOcWYmEKuW8YK6SGiFLAbCTiW9fwEZKeoyHUfA=' 'sha256-yPD0GDKJAfgspOOjQKFoACRbCyB4fHLMN62i//dc3/o='; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'sha256-HGBoSXsXxe69PAc1cswtAGK2tgVqT4lKwjw59B+o4Hs=' 'sha256-w2fDWtOcWYmEKuW8YK6SGiFLAbCTiW9fwEZKeoyHUfA=' 'sha256-yPD0GDKJAfgspOOjQKFoACRbCyB4fHLMN62i//dc3/o='; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="format-detection" content="telephone=no, email=no, address=no">
   
   <title>Javan Rasokat | javan.de</title>
@@ -19,14 +19,21 @@
   <meta property="og:url" content="https://javan.de/">
   <meta property="og:title" content="Javan Rasokat | javan.de">
   <meta property="og:description" content="Security engineer, researcher, trainer, and occasional builder of useful things.">
+  <meta property="og:image" content="https://javan.de/favicon-192.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="192">
+  <meta property="og:image:height" content="192">
+  <meta property="og:image:alt" content="Blinky arcade ghost mark for javan.de">
   <meta property="og:site_name" content="Javan Rasokat">
   <meta property="og:locale" content="en_US">
   
-  <!-- Twitter Card -->
+  <!-- Twitter Card (summary + square mark; upgrade to summary_large_image if a 1200×630 asset ships) -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:url" content="https://javan.de/">
   <meta name="twitter:title" content="Javan Rasokat | javan.de">
   <meta name="twitter:description" content="Security engineer, researcher, trainer, and occasional builder of useful things.">
+  <meta name="twitter:image" content="https://javan.de/favicon-192.png">
+  <meta name="twitter:image:alt" content="Blinky arcade ghost mark for javan.de">
   
   <!-- Performance: DNS Prefetch & Preconnect -->
   <link rel="dns-prefetch" href="//about.javan.de">
@@ -36,10 +43,12 @@
   <link rel="dns-prefetch" href="//training.javan.de">
   <link rel="preconnect" href="https://about.javan.de" crossorigin>
   
-  <!-- Favicon: SVG for modern browsers; PNG ≥48px for Google Search -->
-  <link rel="icon" href="blinky.svg" type="image/svg+xml">
-  <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
-  <link rel="apple-touch-icon" href="favicon-192.png">
+  <!-- Favicon: ICO for Firefox; SVG for modern browsers; PNG ≥48px for Google Search.
+       img-src 'self' is required — Firefox applies CSP to favicons; Chrome often does not. -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/blinky.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/favicon-192.png">
   <style>
     :root {
       color-scheme: dark;

@@ -23,6 +23,15 @@ await check("index.html", (contents) => {
   if (!contents.includes("<h1>javan<span>.de</span></h1>")) {
     failures.push("index.html is not the arcade landing page");
   }
+  if (!contents.includes("img-src 'self'")) {
+    failures.push("index.html CSP is missing img-src 'self' (needed for Firefox favicons)");
+  }
+  if (!contents.includes('href="/favicon.ico"')) {
+    failures.push("index.html is missing /favicon.ico link");
+  }
+  if (!contents.includes('property="og:image"') || !contents.includes("https://javan.de/favicon-192.png")) {
+    failures.push("index.html is missing og:image → favicon-192.png");
+  }
 });
 
 await check("blinky.svg", (contents) => {
@@ -40,6 +49,12 @@ try {
   await readFile(join(dist, "favicon-192.png"));
 } catch {
   failures.push("favicon-192.png is missing from dist/");
+}
+
+try {
+  await readFile(join(dist, "favicon.ico"));
+} catch {
+  failures.push("favicon.ico is missing from dist/");
 }
 
 await check("sitemap.xml", (contents) => {

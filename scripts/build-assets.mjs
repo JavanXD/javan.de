@@ -10,7 +10,7 @@ const publicDir = join(root, "public");
 
 await mkdir(dist, { recursive: true });
 
-const rootFiles = ["index.html", "blinky.svg", "_headers", "favicon-192.png"];
+const rootFiles = ["index.html", "blinky.svg", "_headers", "favicon.ico", "favicon-192.png"];
 for (const name of rootFiles) {
   try {
     await copyFile(join(root, name), join(dist, name));

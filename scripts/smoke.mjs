@@ -18,15 +18,12 @@ if (homepage) {
 }
 
 const www = await request("https://www.javan.de", "/", { redirect: "manual" });
-if (www && www.status === 301) {
-  const location = www.headers.get("location") || "";
-  if (!/^https:\/\/javan\.de\/?$/.test(location)) {
-    failures.push(`www homepage redirected to ${location}, expected https://javan.de/`);
-  }
-} else {
-  expectStatus("www homepage", www, 200);
-  expectBody("www homepage", www, /<h1>javan<span>\.de<\/span><\/h1>/);
-}
+expectStatus("www homepage", www, 301);
+expectHeader("www homepage", www, "location", /^https:\/\/javan\.de\/?$/);
+
+const wwwPath = await request("https://www.javan.de", "/zoom?x=1", { redirect: "manual" });
+expectStatus("www path+query", wwwPath, 301);
+expectHeader("www path+query", wwwPath, "location", /^https:\/\/javan\.de\/zoom\?x=1$/);
 
 const feed = await request(apex, "/feed/", { redirect: "manual" });
 expectStatus("RSS /feed/", feed, 301);

@@ -27,6 +27,7 @@ const LANDING_ASSETS = new Set([
   "/",
   "/index.html",
   "/blinky.svg",
+  "/favicon.ico",
   "/favicon-192.png",
   "/robots.txt",
   "/sitemap.xml",
@@ -53,6 +54,16 @@ export function slugSetFrom(slugs) {
  * WordPress stays the origin: unknown paths and /wp-* are passed through.
  */
 export function decide(url, slugs) {
+  // www → apex (Worker owns both hosts; run_worker_first means Redirect Rules
+  // may never see these requests). Preserve path + query.
+  if (isWwwHost(url.hostname)) {
+    return {
+      type: "redirect",
+      status: 301,
+      location: `https://javan.de${url.pathname}${url.search}`,
+    };
+  }
+
   const pathname = normalizePathname(url.pathname);
   const first = firstSegment(pathname);
   const slugSet = slugs instanceof Set ? slugs : slugSetFrom(slugs);
@@ -91,6 +102,10 @@ export function normalizePathname(pathname) {
   if (!decoded.startsWith("/")) decoded = `/${decoded}`;
   if (decoded.length > 1 && decoded.endsWith("/")) decoded = decoded.slice(0, -1);
   return decoded || "/";
+}
+
+function isWwwHost(hostname) {
+  return hostname === "www.javan.de";
 }
 
 function firstSegment(pathname) {
