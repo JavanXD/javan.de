@@ -3,9 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "generate:sitemap": "node scripts/generate-sitemaps.mjs",
-    "build": "npm run generate:sitemap",
-    "submit:sitemap": "node scripts/submit-sitemaps.mjs"
+    "build:assets": "node scripts/build-assets.mjs",
+    "build": "npm run generate:sitemap && npm run build:assets",
+    "validate": "node scripts/validate-build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "submit:sitemap": "node scripts/submit-sitemaps.mjs",
+    "deploy": "npm run build:assets && npx --yes wrangler deploy",
+    "smoke": "node scripts/smoke.mjs"
   }
 }

@@ -1,0 +1,27 @@
+{
+  // Landing page + article/RSS 301s in front of the existing WordPress origin.
+  // Do NOT set custom_domain on javan.de / www.javan.de — that would replace
+  // WordPress DNS and break /wp-admin, login, and anything not handled here.
+  "name": "www-javan",
+  "account_id": "d4190a56f523423d2c5e6fa542932c35",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-29",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "html_handling": "force-trailing-slash",
+    "run_worker_first": true
+  },
+  "routes": [
+    { "pattern": "javan.de", "zone_name": "javan.de" },
+    { "pattern": "javan.de/*", "zone_name": "javan.de" },
+    { "pattern": "www.javan.de", "zone_name": "javan.de" },
+    { "pattern": "www.javan.de/*", "zone_name": "javan.de" }
+  ]
+}

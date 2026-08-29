@@ -1,7 +1,28 @@
-# www.javan.de sitemap automation
+# www.javan.de
 
-This repository hosts the root sitemap index for `javan.de`/`www.javan.de` and
-automates sitemap submission to search engines.
+Arcade landing page for `javan.de` / `www.javan.de`, plus the root sitemap
+index and sitemap submission automation.
+
+## How production traffic is split
+
+The Worker **does not** become the origin. `javan.de` stays an orange-cloud A
+record to WordPress (`87.106.157.205`). The Worker is attached with **zone
+routes** (`javan.de/*`, `www.javan.de/*`) so it runs in front of that origin.
+
+| Path | What happens |
+| --- | --- |
+| `/`, landing assets, sitemaps, `robots.txt` | Arcade page from this repo |
+| Known article slugs | 301 → `https://blog.javan.de/{slug}/` |
+| `/feed/`, `/rss/`, `?feed=rss2` | 301 → `https://blog.javan.de/feed.xml` |
+| `/wp-login.php`, `/wp-admin/`, `/wp-*` | Passed through to WordPress |
+| Unknown permalinks | Passed through so new drafts still work |
+| `/zoom`, `/meet`, `/secure-coding`, `/csslp` | Existing short links (also still in zone Redirect Rules) |
+
+**Never** attach this Worker as a Cloudflare **custom domain** on `javan.de`
+or `www.javan.de`. That replaces the DNS origin and would take WordPress,
+login, and RSS offline.
+
+`blog.javan.de` is a separate Worker (`blog-javan`) and is not changed here.
 
 ## What this setup does
 
@@ -46,7 +67,12 @@ domains), so adding a new subdomain still requires a config edit.
 
 ```bash
 npm install
-npm run build
+npm test
+npm run build:assets
+npm run validate
+npm run deploy
+npm run smoke
+npm run generate:sitemap
 npm run submit:sitemap
 ```
 
@@ -70,9 +96,11 @@ This is a solo-maintained repo, so it's set up to keep itself current safely:
 - **`.github/dependabot.yml`** — opens weekly PRs to bump npm dependencies
   and GitHub Actions versions used in workflows.
 - **`.github/workflows/ci.yml`** — runs on every PR and push to `main`:
-  installs deps, runs `npm audit --audit-level=high`, and runs
-  `npm run build` to make sure the sitemap generator still executes
-  cleanly. This is the check the auto-merge workflow waits on.
+  installs deps, runs `npm audit --audit-level=high`, `npm test`, sitemap
+  generation, and landing-asset validation. This is the check the
+  auto-merge workflow waits on.
+- **`.github/workflows/deploy.yml`** — deploys the landing Worker from
+  `main` when `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are set.
 - **`.github/workflows/dependabot-auto-merge.yml`** — auto-merges Dependabot
   PRs once CI passes, but **only** for patch/minor version bumps. Major
   version bumps are left open with a comment flagging them for manual

@@ -28,5 +28,14 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=high
 
+      - name: Test routing and deploy config
+        run: npm test
+
       - name: Verify sitemap generation runs cleanly
-        run: npm run build
+        run: npm run generate:sitemap
+
+      - name: Build landing assets
+        run: npm run build:assets
+
+      - name: Validate landing assets
+        run: npm run validate
