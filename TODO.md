@@ -29,6 +29,7 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - [x] Canonical / OG / Twitter / JSON-LD prefer apex `https://javan.de/`.
 - [x] Sitemap index + robots `Sitemap:` line use apex; `rootPages` is apex-only (`www` redirects to apex).
 - [x] Confirm live smoke: homepage, favicon-192, sitemap on both apex and www after this deploy. *(curl 200 on both hosts for favicon + sitemap; apex canonical/OG live; `npm run smoke` passed)*
+- [x] Homepage `<link rel="alternate" type="application/rss+xml">` → `https://blog.javan.de/feed.xml` for feed autodiscovery. *(was missing after cutover; old `/feed/` URLs still 301 correctly)*
 - [ ] Optional: `og:image` pointing at a shareable PNG (none today; summary card only).
 
 ## Out of scope
