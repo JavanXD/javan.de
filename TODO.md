@@ -14,6 +14,8 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - [ ] GitHub Advanced Security. Code scanning and secret scanning are off. Useful later; not blocking the landing.
 - [ ] Search Console: submit `https://javan.de/sitemap.xml` (and/or keep www if already registered). Prefer apex to match canonical tags.
 - [x] `training.javan.de` is `noindex` + `robots.txt` Disallow — **leave as-is.** Confirmed intentional soft-private: training hub delivers class-code / attendee-pack materials (`~/Training/training-hub`, private `javan-training/training.javan.de`); README + Worker set `X-Robots-Tag` / meta robots / `Disallow: /` by design. Do not open for indexing without an explicit product decision.
+- [ ] **High — `cf-relay.javan.de` unauthenticated open HTTP proxy.** Confirmed 2026-08-29 (query + path style; local/metadata SSRF blocked). Options: **(A)** require auth / Access / signed tokens for relay, **(B)** keep public intentionally + document/rate-limit, **(C)** disable public proxy (admin-only). Tracked in `~/Projects/cf-edge-request-relay/TODO.md` — do not silently disable if intentional product.
+- [ ] Keep shared edge Worker `javan-gh-pages-headers` (routes: tt-cheatsheet, conference-tracker, aroundtheworld) long-term vs migrate those origins to Cloudflare Pages/`_headers`? Source: `workers/javan-gh-pages-headers/`.
 
 ## Cutover (done)
 
@@ -37,20 +39,53 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - [x] `og:image` / `twitter:image` → `https://javan.de/favicon-192.png` (summary card; square mark). *(deployed; superseded by large card below)*
 - [x] Dedicated 1200×630 share JPEG + `twitter:card=summary_large_image`. *(`og-image.jpg` arcade Blinky card; meta + routing + build/validate; not deployed yet)*
 
-## Cross-host audit follow-ups (other repos — report only)
+## Cross-host audit index (2026-08-29)
 
-Priority from 2026-08-29 favicon / headers / SEO / OG audit:
+Canvas: `/Users/javan/.cursor/projects/Users-javan-Projects-www-javan-de/canvases/external-security-audit.canvas.tsx`
 
-1. **blog.javan.de** — add `/favicon.ico` (+ HTML link); homepage lacks `og:image` (posts OK); consider CSP.
-2. **flights.javan.de** — `/favicon.ico` returns HTML (SPA fallback); ship real ICO or exclude from navigation fallback (`FlightMap`).
-3. **tt-cheatsheet.javan.de** — no favicon links; no `og:image`.
-4. **luna / algocue** — `og:image` is SVG (many crawlers ignore); ship PNG/JPEG cards.
-5. **about.javan.de** — SEO/OG/PNG icons OK live; missing only `/favicon.ico` (optional). Headers: HSTS + nosniff only (no CSP / Referrer-Policy / frame denial). → **Fixed 2026-08-29** in `about.javan.de` (favicon.ico + `run_worker_first` + Worker headers live).
-6. **projects / conference-tracker / unagentic / cf-relay / aroundtheworld** — weak security header sets (no CSP / often no Referrer-Policy or XFO); cf-relay missing `twitter:card` + `og-image.png` served as SVG; aroundtheworld missing `og:image`. → **projects + unagentic fixed 2026-08-29**; others still open.
-7. **newsletter.javan.de** — intentional 301 → `unagentic.javan.de` (sitemap dedupes).
+### Pass (do not regress)
+
+- [x] **javan.de / www.javan.de** — hygiene Pass for headers/favicon/OG path; WP login/xmlrpc by design (Warn tracked below).
+- [x] **projects.javan.de** — baseline headers 2026-08-29.
+- [x] **blog.javan.de** — favicon.ico + homepage PNG `og:image` shipped; optional CSP still open in `blog.javan.de/TODO.md`.
+- [x] **about.javan.de** — favicon.ico + Worker headers.
+- [x] **newsletter → unagentic.javan.de** — intentional 301; unagentic headers Pass.
+- [x] **algocue.javan.de** — was Pass on headers; PNG OG + favicon.ico added 2026-08-29 (`LeetCodeTrainer`).
+- [x] **training.javan.de** — intentional noindex (decision above).
+
+### Hygiene shipped this session
+
+- [x] **tt-cheatsheet.javan.de** — favicon + PNG OG + Referrer/XFO via `javan-gh-pages-headers` (`TrustedTypes-Cheatsheet`).
+- [x] **aroundtheworld.javan.de** — Referrer/XFO via Worker; `og:image` PNG injected when missing (existing travel PNG).
+- [x] **luna.javan.de** — PNG `og:image` + `/favicon.ico` (`Luna/web`).
+- [x] **flights.javan.de** — real `/favicon.ico`; probe paths hard 404 (`FlightMap`).
+- [x] **conference-tracker.javan.de** — Referrer/XFO via Worker; root `/favicon.ico`.
+- [x] **cf-relay.javan.de** — real PNG OG; framing/Referrer headers; robots/sitemap *(proxy decision still open)*.
+
+### Security findings (track)
+
+- [x] No accidental `.env` / `.git` / backup secret dumps across hosts (2026-08-29 probes).
+- [ ] **High — cf-relay open proxy** — Needs your decision (above + `cf-edge-request-relay/TODO.md`).
+- [ ] Warn: WP login / xmlrpc / readme on **javan.de** + **aroundtheworld** — by design? Disable xmlrpc / fingerprint files if unused (Medium).
+- [ ] Warn/Low: missing CSP on **blog** / **luna** (optional).
+- [ ] Low: `Access-Control-Allow-Origin: *` on some static hosts (flights / conference-tracker / tt-cheatsheet) — drop if unused.
+
+### Repo TODO paths
+
+| Host | Repo TODO |
+|------|-----------|
+| javan.de (index) | `~/Projects/www.javan.de/TODO.md` |
+| tt-cheatsheet | `~/Projects/TrustedTypes-Cheatsheet/TODO.md` |
+| conference-tracker | `~/Projects/ConferenceTracker/TODO.md` |
+| luna | `~/Projects/Luna/TODO.md` |
+| algocue | `~/Projects/LeetCodeTrainer/TODO.md` |
+| flights | `~/Projects/FlightMap/TODO.md` |
+| cf-relay | `~/Projects/cf-edge-request-relay/TODO.md` |
+| blog / about / projects / newsletter | respective `*/TODO.md` (Pass items already checked) |
 
 ## Out of scope
 
 - Merging Dependabot PRs (another agent).
-- Changing `blog.javan.de` or WordPress content.
-- Attaching the Worker as a Cloudflare **custom domain** on `javan.de` / `www.javan.de`.
+- Changing WordPress content trees (except edge header/OG injection for aroundtheworld).
+- Attaching the arcade Worker as a Cloudflare **custom domain** on `javan.de` / `www.javan.de`.
+- Silently disabling cf-relay public proxy.
