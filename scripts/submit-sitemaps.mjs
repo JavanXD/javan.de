@@ -1,8 +1,8 @@
 const sitemapUrls = [
-  "https://www.javan.de/sitemap.xml",
-  "https://www.javan.de/sitemap-main.xml",
-  "https://www.javan.de/sitemap-subdomains.xml",
-  "https://www.javan.de/sitemap-projects.xml",
+  "https://javan.de/sitemap.xml",
+  "https://javan.de/sitemap-main.xml",
+  "https://javan.de/sitemap-subdomains.xml",
+  "https://javan.de/sitemap-projects.xml",
 ].filter((value, index, array) => array.indexOf(value) === index);
 
 const endpoints = [

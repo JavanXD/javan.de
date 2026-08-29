@@ -1,7 +1,6 @@
 {
   "rootPages": [
-    "https://javan.de/",
-    "https://www.javan.de/"
+    "https://javan.de/"
   ],
   "subdomainPages": [
     "https://projects.javan.de/",

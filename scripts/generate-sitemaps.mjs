@@ -137,7 +137,7 @@ function renderSitemapIndex(paths, externalEntries) {
   const entries = paths
     .map(
       (path) =>
-        `  <sitemap>\n    <loc>https://www.javan.de/${path}</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`,
+        `  <sitemap>\n    <loc>https://javan.de/${path}</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`,
     )
     .join("\n");
   const externalPart = externalEntries
@@ -188,7 +188,7 @@ const robotsTemplate = await readFile(
   new URL("../config/robots-template.txt", import.meta.url),
   "utf8",
 );
-const robots = `${robotsTemplate.trimEnd()}\n\n# Sitemap location\nSitemap: https://www.javan.de/sitemap.xml\n`;
+const robots = `${robotsTemplate.trimEnd()}\n\n# Sitemap location\nSitemap: https://javan.de/sitemap.xml\n`;
 await writeFile(new URL("robots.txt", outDir), robots, "utf8");
 
 console.log(

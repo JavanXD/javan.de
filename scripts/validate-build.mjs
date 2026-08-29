@@ -31,10 +31,16 @@ await check("blinky.svg", (contents) => {
 
 await check("robots.txt", (contents) => {
   if (!contents.includes("User-agent: *")) failures.push("robots.txt is missing a user-agent rule");
-  if (!contents.includes("Sitemap: https://www.javan.de/sitemap.xml")) {
+  if (!contents.includes("Sitemap: https://javan.de/sitemap.xml")) {
     failures.push("robots.txt is missing the sitemap URL");
   }
 });
+
+try {
+  await readFile(join(dist, "favicon-192.png"));
+} catch {
+  failures.push("favicon-192.png is missing from dist/");
+}
 
 await check("sitemap.xml", (contents) => {
   if (!contents.includes("<sitemapindex")) failures.push("sitemap.xml is not a sitemap index");

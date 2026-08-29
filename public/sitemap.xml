@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://www.javan.de/sitemap-main.xml</loc>
-    <lastmod>2026-08-24</lastmod>
+    <loc>https://javan.de/sitemap-main.xml</loc>
+    <lastmod>2026-08-29</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://www.javan.de/sitemap-subdomains.xml</loc>
-    <lastmod>2026-08-24</lastmod>
+    <loc>https://javan.de/sitemap-subdomains.xml</loc>
+    <lastmod>2026-08-29</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://www.javan.de/sitemap-projects.xml</loc>
-    <lastmod>2026-08-24</lastmod>
+    <loc>https://javan.de/sitemap-projects.xml</loc>
+    <lastmod>2026-08-29</lastmod>
   </sitemap>
   <sitemap>
     <loc>https://projects.javan.de/sitemap.xml</loc>
-    <lastmod>2026-08-24</lastmod>
+    <lastmod>2026-08-29</lastmod>
   </sitemap>
 </sitemapindex>

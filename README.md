@@ -55,7 +55,7 @@ request and:
   server provides one, falling back to today's date otherwise;
 - drops subdomain and project URLs that come back non-2xx or unreachable,
   so dead links fall out of the sitemap automatically instead of lingering;
-- always keeps `rootPages` (javan.de / www.javan.de) even on a transient
+- always keeps `rootPages` (apex `javan.de`) even on a transient
   failure, since this is the site the workflow itself runs from.
 
 The list of *which* URLs to check is still maintained by hand in

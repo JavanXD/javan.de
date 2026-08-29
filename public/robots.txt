@@ -28,4 +28,4 @@ User-agent: Applebot-Extended
 Allow: /
 
 # Sitemap location
-Sitemap: https://www.javan.de/sitemap.xml
+Sitemap: https://javan.de/sitemap.xml
