@@ -14,6 +14,8 @@ test("serves the landing page for / and static files", () => {
   assert.equal(decide(url("/index.html"), slugSet).type, "asset");
   assert.equal(decide(url("/blinky.svg"), slugSet).type, "asset");
   assert.equal(decide(url("/favicon.ico"), slugSet).type, "asset");
+  assert.equal(decide(url("/favicon-192.png"), slugSet).type, "asset");
+  assert.equal(decide(url("/og-image.jpg"), slugSet).type, "asset");
   assert.equal(decide(url("/robots.txt"), slugSet).type, "asset");
   assert.equal(decide(url("/sitemap.xml"), slugSet).type, "asset");
 });

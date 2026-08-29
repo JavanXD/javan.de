@@ -29,8 +29,11 @@ await check("index.html", (contents) => {
   if (!contents.includes('href="/favicon.ico"')) {
     failures.push("index.html is missing /favicon.ico link");
   }
-  if (!contents.includes('property="og:image"') || !contents.includes("https://javan.de/favicon-192.png")) {
-    failures.push("index.html is missing og:image → favicon-192.png");
+  if (!contents.includes('property="og:image"') || !contents.includes("https://javan.de/og-image.jpg")) {
+    failures.push("index.html is missing og:image → og-image.jpg");
+  }
+  if (!contents.includes('name="twitter:card"') || !contents.includes("summary_large_image")) {
+    failures.push("index.html is missing twitter:card=summary_large_image");
   }
 });
 
@@ -55,6 +58,12 @@ try {
   await readFile(join(dist, "favicon.ico"));
 } catch {
   failures.push("favicon.ico is missing from dist/");
+}
+
+try {
+  await readFile(join(dist, "og-image.jpg"));
+} catch {
+  failures.push("og-image.jpg is missing from dist/");
 }
 
 await check("sitemap.xml", (contents) => {

@@ -4,8 +4,8 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 
 ## Current / next / ops
 
-- **Now:** Landing cutover is live. Worker serves arcade assets on `/` and known paths; known article slugs + RSS 301 to `blog.javan.de`; WordPress stays origin for `/wp-*` and unknown paths. `www` → apex 301 is handled in the Worker (plus optional zone Single Redirect). Favicon/CSP/www-redirect/`og:image`+`twitter:image` → `favicon-192.png` are live (Worker version `22cde974-0946-4b0b-a192-b738d1a0762d`).
-- **Next:** Commit + deploy landing OG image tags; Search Console — submit apex sitemap.
+- **Now:** Landing cutover is live. Worker serves arcade assets on `/` and known paths; known article slugs + RSS 301 to `blog.javan.de`; WordPress stays origin for `/wp-*` and unknown paths. `www` → apex 301 is handled in the Worker (plus optional zone Single Redirect). Favicon/CSP/www-redirect live. Local: `og:image`/`twitter:image` → `https://javan.de/og-image.jpg` (1200×630, `summary_large_image`) — needs commit + deploy.
+- **Next:** Commit + deploy OG large-image card; Search Console — submit apex sitemap.
 - **Later:** Dependabot merges (handled separately); WordPress privacy / publish webhook for blog sync stays in `blog.javan.de`. Cross-host SEO/favicon follow-ups from 2026-08-29 audit (other repos — see below).
 - **Ops:** Always land on `main`. No feature branches or PRs for this repo except Dependabot. Never attach this Worker as a Cloudflare **custom domain** on apex/www.
 
@@ -34,8 +34,8 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - [x] Fix stale `public/sitemap-main.xml` listing `https://www.javan.de/` → apex only.
 - [x] Confirm live smoke: homepage, favicon, sitemap on apex; www 301 to apex. *(wrangler deploy + `npm run smoke` passed 2026-08-29)*
 - [x] Homepage `<link rel="alternate" type="application/rss+xml">` → `https://blog.javan.de/feed.xml` for feed autodiscovery. *(was missing after cutover; old `/feed/` URLs still 301 correctly)*
-- [x] `og:image` / `twitter:image` → `https://javan.de/favicon-192.png` (summary card; square mark). *(deployed; live HTML + HEAD 200 on asset)*
-- [ ] Optional later: dedicated 1200×630 share PNG + `twitter:card=summary_large_image`.
+- [x] `og:image` / `twitter:image` → `https://javan.de/favicon-192.png` (summary card; square mark). *(deployed; superseded by large card below)*
+- [x] Dedicated 1200×630 share JPEG + `twitter:card=summary_large_image`. *(`og-image.jpg` arcade Blinky card; meta + routing + build/validate; not deployed yet)*
 
 ## Cross-host audit follow-ups (other repos — report only)
 

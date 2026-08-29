@@ -29,6 +29,7 @@ const LANDING_ASSETS = new Set([
   "/blinky.svg",
   "/favicon.ico",
   "/favicon-192.png",
+  "/og-image.jpg",
   "/robots.txt",
   "/sitemap.xml",
   "/sitemap-main.xml",
