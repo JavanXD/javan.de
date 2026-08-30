@@ -2,7 +2,7 @@
   // Landing page + article/RSS 301s in front of the existing WordPress origin.
   // Do NOT set custom_domain on javan.de / www.javan.de — that would replace
   // WordPress DNS and break /wp-admin, login, and anything not handled here.
-  "name": "www-javan",
+  "name": "javan-de",
   "account_id": "d4190a56f523423d2c5e6fa542932c35",
   "main": "src/index.js",
   "compatibility_date": "2026-08-29",

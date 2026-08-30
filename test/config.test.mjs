@@ -10,7 +10,7 @@ test("Worker sits in front of WordPress via routes, not as a custom-domain origi
   const source = await readFile(join(root, "wrangler.jsonc"), "utf8");
   const config = JSON.parse(source.replace(/\/\/.*$/gm, ""));
 
-  assert.equal(config.name, "www-javan");
+  assert.equal(config.name, "javan-de");
   assert.equal(config.main, "src/index.js");
   assert.equal(config.assets.directory, "./dist");
   assert.equal(config.assets.binding, "ASSETS");

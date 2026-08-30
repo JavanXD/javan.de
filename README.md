@@ -16,7 +16,7 @@ routes** (`javan.de/*`, `www.javan.de/*`) so it runs in front of that origin.
 | `/feed/`, `/rss/`, `?feed=rss2` | 301 → `https://blog.javan.de/feed.xml` |
 | `/wp-login.php`, `/wp-admin/`, `/wp-*` | Passed through to WordPress |
 | Unknown permalinks | Passed through so new drafts still work |
-| `/zoom`, `/meet`, `/secure-coding`, `/csslp` | Existing short links (also still in zone Redirect Rules) |
+| `/zoom`, `/meet`, `/secure-coding`, `/csslp` | Zone Single Redirects only (Worker does not handle these) |
 
 **Never** attach this Worker as a Cloudflare **custom domain** on `javan.de`
 or `www.javan.de`. That replaces the DNS origin and would take WordPress,
