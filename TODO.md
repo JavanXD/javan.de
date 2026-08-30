@@ -14,7 +14,7 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - [ ] GitHub Advanced Security. Code scanning and secret scanning are off. Useful later; not blocking the landing.
 - [ ] Search Console: submit `https://javan.de/sitemap.xml` (and/or keep www if already registered). Prefer apex to match canonical tags.
 - [x] `training.javan.de` is `noindex` + `robots.txt` Disallow — **leave as-is.** Confirmed intentional soft-private: training hub delivers class-code / attendee-pack materials (`~/Training/training-hub`, private `javan-training/training.javan.de`); README + Worker set `X-Robots-Tag` / meta robots / `Disallow: /` by design. Do not open for indexing without an explicit product decision.
-- [ ] **High — `cf-relay.javan.de` unauthenticated open HTTP proxy.** Confirmed 2026-08-29 (query + path style; local/metadata SSRF blocked). Options: **(A)** require auth / Access / signed tokens for relay, **(B)** keep public intentionally + document/rate-limit, **(C)** disable public proxy (admin-only). Tracked in `~/Projects/cf-edge-request-relay/TODO.md` — do not silently disable if intentional product.
+- [x] **High — `cf-relay.javan.de` open proxy on `*.javan.de`.** Decision (2026-08-30): **Move cf-relay off `*.javan.de` to its own domain** — an open HTTP proxy on this zone bypasses zone security protections (WAF/Access/etc.). Do **not** disable the public proxy in place without that cutover. Implementation tracked unchecked in `~/Projects/cf-edge-request-relay/TODO.md`.
 - [ ] Keep shared edge Worker `javan-gh-pages-headers` (routes: tt-cheatsheet, conference-tracker, aroundtheworld) long-term vs migrate those origins to Cloudflare Pages/`_headers`? Source: `workers/javan-gh-pages-headers/`.
 
 ## Cutover (done)
@@ -55,20 +55,20 @@ Canvas: `/Users/javan/.cursor/projects/Users-javan-Projects-www-javan-de/canvase
 
 ### Hygiene shipped this session
 
-- [x] **tt-cheatsheet.javan.de** — favicon + PNG OG + Referrer/XFO via `javan-gh-pages-headers` (`TrustedTypes-Cheatsheet`).
+- [x] **tt-cheatsheet.javan.de** — favicon + PNG OG + Referrer/XFO via `javan-gh-pages-headers`; 2026-08-30 follow-up: exclude `TODO.md` from public site, real `favicon-192.png` (stop using OG as icon), strip GH Pages `Access-Control-Allow-Origin: *` at edge (`TrustedTypes-Cheatsheet`).
 - [x] **aroundtheworld.javan.de** — Referrer/XFO via Worker; `og:image` PNG injected when missing (existing travel PNG).
 - [x] **luna.javan.de** — PNG `og:image` + `/favicon.ico` (`Luna/web`).
 - [x] **flights.javan.de** — real `/favicon.ico`; probe paths hard 404 (`FlightMap`).
 - [x] **conference-tracker.javan.de** — Referrer/XFO via Worker; root `/favicon.ico`.
-- [x] **cf-relay.javan.de** — real PNG OG; framing/Referrer headers; robots/sitemap *(proxy decision still open)*.
+- [x] **cf-relay.javan.de** — real PNG OG; framing/Referrer headers; robots/sitemap. *(own-domain move decided — see below)*
 
 ### Security findings (track)
 
 - [x] No accidental `.env` / `.git` / backup secret dumps across hosts (2026-08-29 probes).
-- [ ] **High — cf-relay open proxy** — Needs your decision (above + `cf-edge-request-relay/TODO.md`).
+- [ ] **High — Move cf-relay off `*.javan.de` to its own domain** (open proxy bypasses zone security protections). Next: pick domain → DNS + CF zone → update clients → decommission `cf-relay.javan.de`. Details: `~/Projects/cf-edge-request-relay/TODO.md`. Do not disable proxy until cutover.
 - [ ] Warn: WP login / xmlrpc / readme on **javan.de** + **aroundtheworld** — by design? Disable xmlrpc / fingerprint files if unused (Medium).
 - [ ] Warn/Low: missing CSP on **blog** / **luna** (optional).
-- [ ] Low: `Access-Control-Allow-Origin: *` on some static hosts (flights / conference-tracker / tt-cheatsheet) — drop if unused.
+- [ ] Low: `Access-Control-Allow-Origin: *` on **flights** — drop if unused. *(tt-cheatsheet + conference-tracker + aroundtheworld: stripped via `javan-gh-pages-headers`)*
 
 ### Repo TODO paths
 
@@ -88,4 +88,4 @@ Canvas: `/Users/javan/.cursor/projects/Users-javan-Projects-www-javan-de/canvase
 - Merging Dependabot PRs (another agent).
 - Changing WordPress content trees (except edge header/OG injection for aroundtheworld).
 - Attaching the arcade Worker as a Cloudflare **custom domain** on `javan.de` / `www.javan.de`.
-- Silently disabling cf-relay public proxy.
+- Silently disabling cf-relay public proxy before the own-domain cutover.

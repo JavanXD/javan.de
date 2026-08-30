@@ -29,6 +29,8 @@ export default {
     for (const [k, v] of Object.entries(SECURITY_HEADERS)) {
       headers.set(k, v);
     }
+    // GitHub Pages often sends ACAO: *; unused by these static docs hosts — drop it.
+    headers.delete("Access-Control-Allow-Origin");
 
     const ct = (headers.get("content-type") || "").toLowerCase();
     const isHtml = ct.includes("text/html");
