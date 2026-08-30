@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 
 const today = new Date().toISOString().slice(0, 10);
 const outDir = new URL("../public/", import.meta.url);
@@ -9,7 +9,6 @@ const config = JSON.parse(
 );
 const rootPages = config.rootPages;
 const subdomainPages = config.subdomainPages;
-const projectAndHistoricPages = config.projectAndHistoricPages;
 const externalSitemaps = config.externalSitemaps ?? [];
 
 function escapeXml(value) {
@@ -111,7 +110,7 @@ async function resolveUrls(urls, { dropIfUnreachable, checkCanonical = true }) {
 
 // Drops entries whose (canonical) URL already appeared in an earlier list,
 // so mirrored/duplicate content is only listed once. Lists are deduped in
-// priority order: root pages win, then subdomains, then project pages.
+// priority order: root pages win, then subdomains.
 function dedupeAcrossLists(lists) {
   const seen = new Set();
   return lists.map((entries) =>
@@ -150,32 +149,36 @@ function renderSitemapIndex(paths, externalEntries) {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${combined}\n</sitemapindex>\n`;
 }
 
-const [resolvedRoot, resolvedSubdomains, resolvedProjects, resolvedExternal] = await Promise.all([
+const [resolvedRoot, resolvedSubdomains, resolvedExternal] = await Promise.all([
   resolveUrls(rootPages, { dropIfUnreachable: false }),
   resolveUrls(subdomainPages, { dropIfUnreachable: true }),
-  resolveUrls(projectAndHistoricPages, { dropIfUnreachable: true }),
   resolveUrls(externalSitemaps, { dropIfUnreachable: false, checkCanonical: false }),
 ]);
 
-// Dedupe page URLs across lists (priority: root > subdomains > projects).
+// Dedupe page URLs across lists (priority: root > subdomains).
 // External sitemaps are a different namespace (child sitemap files, not
 // pages) so they're excluded from this pass.
-const [dedupedRoot, dedupedSubdomains, dedupedProjects] = dedupeAcrossLists([
+const [dedupedRoot, dedupedSubdomains] = dedupeAcrossLists([
   resolvedRoot,
   resolvedSubdomains,
-  resolvedProjects,
 ]);
 
 const sitemapFiles = [
   { file: "sitemap-main.xml", urls: dedupedRoot },
   { file: "sitemap-subdomains.xml", urls: dedupedSubdomains },
-  { file: "sitemap-projects.xml", urls: dedupedProjects },
 ];
 
 await mkdir(outDir, { recursive: true });
 
 for (const { file, urls } of sitemapFiles) {
   await writeFile(new URL(file, outDir), renderUrlSet(urls), "utf8");
+}
+
+// Remove the retired projects child sitemap if a previous run left it behind.
+try {
+  await unlink(new URL("sitemap-projects.xml", outDir));
+} catch (error) {
+  if (error?.code !== "ENOENT") throw error;
 }
 
 await writeFile(
@@ -193,6 +196,5 @@ await writeFile(new URL("robots.txt", outDir), robots, "utf8");
 
 console.log(
   `Generated sitemap index + ${sitemapFiles.length} child sitemaps in public/ ` +
-    `(${dedupedSubdomains.length}/${subdomainPages.length} subdomains, ` +
-    `${dedupedProjects.length}/${projectAndHistoricPages.length} project pages live).`,
+    `(${dedupedSubdomains.length}/${subdomainPages.length} subdomains live).`,
 );

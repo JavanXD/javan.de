@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { copyFile, mkdir, readdir } from "node:fs/promises";
+import { copyFile, mkdir, readdir, unlink } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -22,6 +22,15 @@ for (const name of rootFiles) {
 for (const name of await readdir(publicDir)) {
   if (name.startsWith(".")) continue;
   await copyFile(join(publicDir, name), join(dist, name));
+}
+
+// Drop retired public assets that may linger in dist/ from older builds.
+for (const name of ["sitemap-projects.xml"]) {
+  try {
+    await unlink(join(dist, name));
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
 }
 
 console.log(`Copied landing assets into ${dist}`);

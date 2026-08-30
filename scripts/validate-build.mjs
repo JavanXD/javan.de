@@ -68,7 +68,21 @@ try {
 
 await check("sitemap.xml", (contents) => {
   if (!contents.includes("<sitemapindex")) failures.push("sitemap.xml is not a sitemap index");
+  if (!contents.includes("sitemap-main.xml")) failures.push("sitemap.xml is missing sitemap-main.xml");
+  if (!contents.includes("sitemap-subdomains.xml")) {
+    failures.push("sitemap.xml is missing sitemap-subdomains.xml");
+  }
+  if (contents.includes("sitemap-projects.xml")) {
+    failures.push("sitemap.xml still lists retired sitemap-projects.xml");
+  }
 });
+
+try {
+  await readFile(join(dist, "sitemap-projects.xml"));
+  failures.push("sitemap-projects.xml should not be copied into dist/");
+} catch {
+  // expected: file removed
+}
 
 await check("_headers", (contents) => {
   for (const header of ["X-Content-Type-Options: nosniff", "X-Robots-Tag: noindex"]) {

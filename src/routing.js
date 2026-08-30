@@ -34,7 +34,6 @@ const LANDING_ASSETS = new Set([
   "/sitemap.xml",
   "/sitemap-main.xml",
   "/sitemap-subdomains.xml",
-  "/sitemap-projects.xml",
 ]);
 
 /** WordPress fingerprint / XML-RPC paths — block at the edge (404). Keep /wp-login.php and /wp-admin/ on origin. */

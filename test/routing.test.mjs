@@ -18,6 +18,10 @@ test("serves the landing page for / and static files", () => {
   assert.equal(decide(url("/og-image.jpg"), slugSet).type, "asset");
   assert.equal(decide(url("/robots.txt"), slugSet).type, "asset");
   assert.equal(decide(url("/sitemap.xml"), slugSet).type, "asset");
+  assert.equal(decide(url("/sitemap-main.xml"), slugSet).type, "asset");
+  assert.equal(decide(url("/sitemap-subdomains.xml"), slugSet).type, "asset");
+  // Retired child sitemap is no longer a landing asset (falls through to origin / 404).
+  assert.equal(decide(url("/sitemap-projects.xml"), slugSet).type, "origin");
 });
 
 test("redirects www.javan.de to apex preserving path and query", () => {

@@ -34,6 +34,8 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - [x] `www.javan.de` → `javan.de` 301 in Worker (`decide`), preserving path + query; smoke requires 301. *(zone had no www rule; deploy token lacks Rules write — Single Redirect not added; Worker is sufficient with `run_worker_first`)*
 - [x] Fix Firefox favicon: CSP `img-src 'self'` (Firefox enforces CSP on favicons; Chrome often does not) + `/favicon.ico` + absolute icon `href`s.
 - [x] Fix stale `public/sitemap-main.xml` listing `https://www.javan.de/` → apex only.
+- [x] Drop retired `sitemap-projects.xml` child; move sudoku into `subdomainPages`; apex article paths owned by blog sitemap. *(2026-08-30)*
+- [ ] Optional: `projects.javan.de/sitemap.xml` still lists stale apex article paths (`/pihole-…`, `/condition-injection/`) — fix in the projects repo, not here.
 - [x] Confirm live smoke: homepage, favicon, sitemap on apex; www 301 to apex. *(wrangler deploy + `npm run smoke` passed 2026-08-29)*
 - [x] Homepage `<link rel="alternate" type="application/rss+xml">` → `https://blog.javan.de/feed.xml` for feed autodiscovery. *(was missing after cutover; old `/feed/` URLs still 301 correctly)*
 - [x] `og:image` / `twitter:image` → `https://javan.de/favicon-192.png` (summary card; square mark). *(deployed; superseded by large card below)*

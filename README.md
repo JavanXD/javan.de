@@ -27,10 +27,9 @@ login, and RSS offline.
 ## What this setup does
 
 - Generates:
-  - `public/sitemap.xml` (sitemap index)
+  - `public/sitemap.xml` (sitemap index; also references `projects.javan.de/sitemap.xml`)
   - `public/sitemap-main.xml` (root pages)
   - `public/sitemap-subdomains.xml` (subdomains and major sites)
-  - `public/sitemap-projects.xml` (project and historical pages)
   - `public/robots.txt` with sitemap reference
 - Runs a weekly + manual GitHub Action to refresh and submit sitemap pings to
   Google and Bing.
@@ -47,14 +46,13 @@ request and:
   `www` redirecting to the apex domain) is listed under its real canonical
   address instead of the stale one in config;
 - drops any entry whose (canonical) URL was already listed by an earlier
-  section — `rootPages` > `subdomainPages` > `projectAndHistoricPages` —
-  so the same page never appears twice in the sitemap just because it's
-  referenced from more than one list, or because a redirect/mirror made
-  two entries resolve to the same place;
+  section — `rootPages` > `subdomainPages` — so the same page never appears
+  twice in the sitemap just because it's referenced from more than one list,
+  or because a redirect/mirror made two entries resolve to the same place;
 - uses the real `Last-Modified` response header as `<lastmod>` when the
   server provides one, falling back to today's date otherwise;
-- drops subdomain and project URLs that come back non-2xx or unreachable,
-  so dead links fall out of the sitemap automatically instead of lingering;
+- drops subdomain URLs that come back non-2xx or unreachable, so dead links
+  fall out of the sitemap automatically instead of lingering;
 - always keeps `rootPages` (apex `javan.de`) even on a transient
   failure, since this is the site the workflow itself runs from.
 
@@ -82,7 +80,6 @@ Edit the URL lists in `config/sitemap-links.json`:
 
 - `rootPages`
 - `subdomainPages`
-- `projectAndHistoricPages`
 - `externalSitemaps`
 
 Each is a plain array of URL strings — `lastmod` is resolved automatically
