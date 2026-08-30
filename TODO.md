@@ -70,7 +70,7 @@ Canvas: `/Users/javan/.cursor/projects/Users-javan-Projects-www-javan-de/canvase
 - [ ] **High — Move cf-relay off `*.javan.de` to its own domain** (open proxy bypasses zone security protections). Next: pick domain → DNS + CF zone → update clients → decommission `cf-relay.javan.de`. Details: `~/Projects/cf-edge-request-relay/TODO.md`. Do not disable proxy until cutover.
 - [x] Warn: WP login / xmlrpc / readme on **javan.de** + **aroundtheworld** — by design? Disable xmlrpc / fingerprint files if unused (Medium). *(2026-08-30: edge 404 for `/xmlrpc.php`, `/readme.html`, `/license.txt`, `/wp-admin/install.php`, `/wp-admin/setup-config.php` via `www-javan` Worker + `javan-gh-pages-headers` for ATW. `/wp-login.php` + `/wp-admin/` still origin.)*
 - [x] Warn/Low: missing CSP on **blog** / **luna** (optional). *(enforcing CSP shipped 2026-08-30; also tt-cheatsheet + conference-tracker via edge Worker; cf-relay HTML UI only)*
-- [x] Low: `Access-Control-Allow-Origin: *` on **flights** — drop if unused. *(FlightMap Pages Function middleware strips ACAO on `/*`; tt-cheatsheet + conference-tracker + aroundtheworld already stripped via `javan-gh-pages-headers`)*
+- [x] Low: `Access-Control-Allow-Origin: *` on **flights** — drop if unused. *(FlightMap middleware strips ACAO on `/*`; pages.dev + cache-busted URLs clean. Custom-domain CDN may HIT pre-change `/data/*`/`favicon.ico` until TTL or a Cache Purge — current API tokens lack purge. tt-cheatsheet + conference-tracker + aroundtheworld already stripped via `javan-gh-pages-headers`)*
 
 ### Repo TODO paths
 
