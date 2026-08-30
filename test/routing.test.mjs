@@ -68,8 +68,16 @@ test("redirects article comment/feed subpaths to the article on the blog", () =>
 });
 
 test("keeps WordPress login and admin on the origin", () => {
-  for (const path of ["/wp-login.php", "/wp-admin/", "/wp-json/", "/xmlrpc.php", "/wp-content/uploads/x.jpg"]) {
+  for (const path of ["/wp-login.php", "/wp-admin/", "/wp-json/", "/wp-content/uploads/x.jpg"]) {
     assert.equal(decide(url(path), slugSet).type, "origin", path);
+  }
+});
+
+test("blocks WordPress XML-RPC and fingerprint files", () => {
+  for (const path of ["/xmlrpc.php", "/readme.html", "/license.txt", "/wp-admin/install.php", "/wp-admin/setup-config.php"]) {
+    const decision = decide(url(path), slugSet);
+    assert.equal(decision.type, "block", path);
+    assert.equal(decision.status, 404, path);
   }
 });
 

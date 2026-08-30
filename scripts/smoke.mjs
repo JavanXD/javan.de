@@ -47,6 +47,11 @@ expectStatus("wp-login.php", login, 200);
 expectHeader("wp-login.php", login, "content-type", /text\/html/i);
 expectBody("wp-login.php", login, /loginform|WordPress/i);
 
+for (const blocked of ["/xmlrpc.php", "/readme.html", "/license.txt"]) {
+  const res = await request(apex, blocked, { redirect: "manual" });
+  expectStatus(`blocked ${blocked}`, res, 404);
+}
+
 const admin = await request(apex, "/wp-admin/", { redirect: "manual" });
 if (!admin || (admin.status !== 302 && admin.status !== 301)) {
   failures.push(`wp-admin/ returned ${admin?.status ?? "nothing"}, expected a redirect to login`);

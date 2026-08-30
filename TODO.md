@@ -4,7 +4,7 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 
 ## Current / next / ops
 
-- **Now:** Landing cutover is live. Worker serves arcade assets on `/` and known paths; known article slugs + RSS 301 to `blog.javan.de`; WordPress stays origin for `/wp-*` and unknown paths. `www` → apex 301 is handled in the Worker (plus optional zone Single Redirect). Favicon/CSP/www-redirect/`og:image`+`twitter:image` → `og-image.jpg` (1200×630, `summary_large_image`) are live.
+- **Now:** Landing cutover is live. Worker serves arcade assets on `/`; WP origin for `/wp-*` (login/admin kept); XML-RPC + fingerprint paths edge-404. Favicon/CSP/www-redirect/OG live.
 - **Next:** Search Console — submit apex sitemap. Refresh Facebook Sharing Debugger / WhatsApp cache after OG change.
 - **Later:** Dependabot merges (handled separately); WordPress privacy / publish webhook for blog sync stays in `blog.javan.de`. Cross-host SEO/favicon follow-ups from 2026-08-29 audit (other repos — see below).
 - **Ops:** Always land on `main`. No feature branches or PRs for this repo except Dependabot. Never attach this Worker as a Cloudflare **custom domain** on apex/www.
@@ -66,9 +66,9 @@ Canvas: `/Users/javan/.cursor/projects/Users-javan-Projects-www-javan-de/canvase
 
 - [x] No accidental `.env` / `.git` / backup secret dumps across hosts (2026-08-29 probes).
 - [ ] **High — Move cf-relay off `*.javan.de` to its own domain** (open proxy bypasses zone security protections). Next: pick domain → DNS + CF zone → update clients → decommission `cf-relay.javan.de`. Details: `~/Projects/cf-edge-request-relay/TODO.md`. Do not disable proxy until cutover.
-- [ ] Warn: WP login / xmlrpc / readme on **javan.de** + **aroundtheworld** — by design? Disable xmlrpc / fingerprint files if unused (Medium).
-- [ ] Warn/Low: missing CSP on **blog** / **luna** (optional).
-- [ ] Low: `Access-Control-Allow-Origin: *` on **flights** — drop if unused. *(tt-cheatsheet + conference-tracker + aroundtheworld: stripped via `javan-gh-pages-headers`)*
+- [x] Warn: WP login / xmlrpc / readme on **javan.de** + **aroundtheworld** — by design? Disable xmlrpc / fingerprint files if unused (Medium). *(2026-08-30: edge 404 for `/xmlrpc.php`, `/readme.html`, `/license.txt`, `/wp-admin/install.php`, `/wp-admin/setup-config.php` via `www-javan` Worker + `javan-gh-pages-headers` for ATW. `/wp-login.php` + `/wp-admin/` still origin.)*
+- [x] Warn/Low: missing CSP on **blog** / **luna** (optional). *(enforcing CSP shipped 2026-08-30; also tt-cheatsheet + conference-tracker via edge Worker; cf-relay HTML UI only)*
+- [x] Low: `Access-Control-Allow-Origin: *` on **flights** — drop if unused. *(FlightMap Pages Function middleware strips ACAO on `/*`; tt-cheatsheet + conference-tracker + aroundtheworld already stripped via `javan-gh-pages-headers`)*
 
 ### Repo TODO paths
 

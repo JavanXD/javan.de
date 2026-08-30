@@ -15,6 +15,13 @@ export default {
       return new Response(null, { status: decision.status, headers });
     }
 
+    if (decision.type === "block") {
+      return new Response("Not Found", {
+        status: decision.status || 404,
+        headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" },
+      });
+    }
+
     if (decision.type === "asset") {
       const response = await env.ASSETS.fetch(request);
       return workersDev ? withNoIndex(response) : response;

@@ -37,6 +37,15 @@ const LANDING_ASSETS = new Set([
   "/sitemap-projects.xml",
 ]);
 
+/** WordPress fingerprint / XML-RPC paths — block at the edge (404). Keep /wp-login.php and /wp-admin/ on origin. */
+const WP_BLOCKED_PATHS = new Set([
+  "/xmlrpc.php",
+  "/readme.html",
+  "/license.txt",
+  "/wp-admin/install.php",
+  "/wp-admin/setup-config.php",
+]);
+
 export function slugSetFrom(slugs) {
   const set = new Set();
   for (const slug of slugs) {
@@ -68,6 +77,10 @@ export function decide(url, slugs) {
   const pathname = normalizePathname(url.pathname);
   const first = firstSegment(pathname);
   const slugSet = slugs instanceof Set ? slugs : slugSetFrom(slugs);
+
+  if (WP_BLOCKED_PATHS.has(pathname.toLowerCase())) {
+    return { type: "block", status: 404 };
+  }
 
   if (first && Object.hasOwn(SHORT_LINKS, first) && pathHasOnlySegment(pathname, first)) {
     const short = SHORT_LINKS[first];
