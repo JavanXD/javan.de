@@ -4,8 +4,8 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 
 ## Current / next / ops
 
-- **Now:** P1 quota-free edge is live (2026-09-01). Arcade `/` + `_headers` are Static Assets (0 Worker quota). Zone Single Redirect `www.javan.de` → apex (rule `78323227…`, **10/10**). Known article/feed/short-link 301s via `_redirects` (also 0 quota; Worker `decide()` is fallback for `?feed=` and unpublished slugs). WP login/admin + scanners still Worker. Cloudflare Worker script renamed `www-javan` → **`javan-de`** (2026-08-30); GitHub repo renamed `www.javan.de` → **`javan.de`** (2026-08-31).
-- **Next (cost / abuse):** Bulk Redirect list when a token has **Account Filter Lists Edit** (`npm run sync:bulk-redirects`) — covers www copies + `newsletter.javan.de`/`digest.javan.de` homepages. Optional permalink rate-limit / Bot Fight. Playbook: `~/Projects/rasok.at/docs/CLOUDFLARE-COST-OPTIMIZATION.md`.
+- **Now:** P1 quota-free edge is live (2026-09-01). **Bulk Redirects** list `javan_de_quota_free` + account phase rule synced (288 items). **Transform Rules** on `javan.de` for `tt-cheatsheet` + `aroundtheworld` (2 rules); obsolete **`javan-gh-pages-headers` Worker deleted** *(2026-09-01)*. Arcade `/` + `_headers` are Static Assets (0 Worker quota). Zone Single Redirect `www.javan.de` → apex (rule `78323227…`, **10/10**). Known article/feed/short-link 301s via `_redirects` + Bulk (www copies + newsletter/digest homepage). WP login/admin + scanners still Worker. Cloudflare Worker script renamed `www-javan` → **`javan-de`** (2026-08-30); GitHub repo renamed `www.javan.de` → **`javan.de`** (2026-08-31).
+- **Next (cost / abuse):** Optional permalink rate-limit / Bot Fight. Playbook: `~/Projects/rasok.at/docs/CLOUDFLARE-COST-OPTIMIZATION.md`.
 - **Later:** Search Console — submit apex sitemap. Refresh Facebook Sharing Debugger / WhatsApp cache after OG change. Dependabot merges (handled separately); WordPress privacy / publish webhook for blog sync stays in `blog.javan.de`. Cross-host SEO/favicon follow-ups from 2026-08-29 audit (other repos — see below).
 - **Ops:** Always land on `main`. No feature branches or PRs for this repo except Dependabot. Never attach this Worker as a Cloudflare **custom domain** on apex/www. Cloudflare spend: keep this zone **Free**; do not buy Pro for extra Single Redirects (**Bulk Redirects** / zone rules first; Worker only as slot workaround). Umbrella 2026-09-01: **no Workers Paid**; **quota-free is better** (this checklist P1). Cross-account playbook: `~/Projects/rasok.at/docs/CLOUDFLARE-COST-OPTIMIZATION.md`.
 
@@ -34,12 +34,12 @@ P1 is the viral-isolation plan (decided 2026-09-01). Cache API stays for leftove
 Standing rule: **if it does not consume Worker quota, it is better.** Worker `fetch` only for work that cannot be Rules / Static Assets / `_headers`.
 
 - [x] **Zone Single Redirect** `www.javan.de` → `https://javan.de` + path + query. *(2026-09-01; rule `78323227…`; zone **10/10**. Worker www 301 is fallback.)*
-- [x] **Article / feed / short-link 301s off the Worker** via Static Assets **`_redirects`** (generated from `article-slugs.json` + `SHORT_LINKS`; live 301s carry asset `_headers`). Worker `decide()` remains fallback for `?feed=` and unpublished slugs. **Bulk Redirects** still preferred for www copies + newsletter aliases — blocked until a token has Account Filter Lists Edit (`npm run sync:bulk-redirects`). Canonical/share **`blog.javan.de`**.
+- [x] **Article / feed / short-link 301s off the Worker** via Static Assets **`_redirects`** (generated from `article-slugs.json` + `SHORT_LINKS`; live 301s carry asset `_headers`). Worker `decide()` remains fallback for `?feed=` and unpublished slugs. **Bulk Redirects** list **`javan_de_quota_free`** + account phase rule for www copies + newsletter/digest homepage aliases *(synced 2026-09-01 via `npm run sync:bulk-redirects`; general All-accounts token)*. Canonical/share **`blog.javan.de`**.
 - [x] **Landing asset-first** — `run_worker_first` omitted (default false). `dist/` arcade + `_headers` = free unlimited. Unmatched paths hit the Worker.
 - [x] **Keep Worker** for `/wp-login.php`, `/wp-admin/*`, scanner 404s, unpublished/unknown slugs (WP drafts). Optional later: drop catch-all `javan.de/*` so admin is the only origin route.
 - [x] **about.javan.de** — assets-only (no `main`); CSP/XFO/cache in **`_headers`**. Trailing-slash XML via `_redirects`. See `about.javan.de/TODO.md`.
 - [x] **unagentic.javan.de** — `run_worker_first: ["/api/*", "/privacy", "/privacy/"]`; static HTML/icons via assets + **`_headers`**. Worker stays for signup/D1. `newsletter.javan.de` / `digest.javan.de` **homepage is 200** (canonical still unagentic) until Bulk exists. See `unagentic.javan.de/TODO.md`.
-- [ ] **`javan-gh-pages-headers`** — retire header-only Worker; per-host Transform Rules (or `_headers` after leaving GH Pages). **Blocked:** general API token has no Zone Transform Rules write (403). Keep Worker on `tt-cheatsheet` + `aroundtheworld`. `conference-tracker.javan.de` already 301s to rasok (stale route).
+- [x] **`javan-gh-pages-headers`** — per-host **Transform Rules** on zone `javan.de` for `tt-cheatsheet.javan.de` + `aroundtheworld.javan.de` *(rules `gh_pages_common_headers`, `tt_cheatsheet_csp`; ruleset `5433226472194944b9079f48bea8e59e`)*. Obsolete Worker script **deleted** *(2026-09-01)*. **Caveat:** aroundtheworld WP fingerprint **404** + missing-`og:image` HTML injection were Worker-only — now origin/WP (`xmlrpc.php` **405**). Revisit with WAF or origin fix if needed.
 - [x] **SHORT_LINKS** (`/zoom` etc.) — on **`_redirects`** (0 Worker quota). Zone slots stay for lab host 301s (now 10/10 including www). Worker copy is fallback.
 - [ ] **Optional — rate-limit unknown permalinks** (paths that are not landing assets, not known article slugs, not `/wp-login.php`/`/wp-admin/`): per-IP cap via CF Rate Limiting binding or DO so a single scanner IP cannot burn tens of thousands of origin fetches/day. Return 429 (or edge 404) when exceeded.
 - [ ] **Optional — Bot Fight / WAF custom rules** on zone `javan.de` for obvious scanner UAs / high-rate 404 bursts (Free Bot Fight Mode if not already on). Prefer edge challenge over Paid WAF.
@@ -62,6 +62,27 @@ Standing rule: **if it does not consume Worker quota, it is better.** Worker `fe
 - [x] **High — `cf-relay.javan.de` open proxy on `*.javan.de`.** Decision (2026-08-30): **Move cf-relay off `*.javan.de` to its own domain**. Done: `cf-relay.rasok.at` + old host **301**. Details: `~/Projects/*.rasok.at/cf-relay/TODO.md`.
 - [x] **`javan-gh-pages-headers` → `_headers` / Transform (quota-free).** Decided 2026-09-01: do not keep a header-only Worker on the shared 100k pool. Migrate tt-cheatsheet / aroundtheworld (conference-tracker already on rasok). Source: `workers/javan-gh-pages-headers/`.
 - [x] **SHORT_LINKS — prefer quota-free Rules.** Decided 2026-09-01: zone Single Redirect or Bulk when a slot exists (0 Worker quota). Shipped on **`_redirects`** (zone slots full with lab 301s + www). Worker `SHORT_LINKS` is fallback.
+
+## Bulk + Transform token — done (2026-09-01)
+
+**Shipped with widened `~/Projects/.secrets/cloudflare-general-api-token`** (All accounts; Filter Lists + Bulk Redirects + Transform write). Dedicated **`~/Projects/.secrets/javan-de-filter-lists-transform.env` not needed** unless you later narrow the general token.
+
+**Executed:**
+
+- `CLOUDFLARE_ACCOUNT_ID=d4190a56…` + general token → `npm run sync:bulk-redirects` — list **`javan_de_quota_free`** (`a3dc7271…`, **288** items) + account redirect ruleset `99c7e065…` (`eval_javan_de_quota_free`).
+- Zone Transform: **2** response-header rules on `javan.de` (ruleset `5433226472194944b9079f48bea8e59e`).
+- Detached zone routes + **deleted** obsolete `javan-gh-pages-headers` Worker script.
+
+**Re-sync:** `export CLOUDFLARE_ACCOUNT_ID=d4190a56f523423d2c5e6fa542932c35 CLOUDFLARE_API_TOKEN=$(cat ~/Projects/.secrets/cloudflare-general-api-token)` → `npm run sync:bulk-redirects`.
+
+<details><summary>Original scoped-token checklist (archived)</summary>
+
+1. Log in as **`mail@javan.de`** → API Tokens → Custom token.
+2. Permissions: Account Filter Lists Edit, Bulk URL Redirects Edit, Account Rulesets Read, Zone Transform Rules Edit.
+3. Account **Javan** only; zone **`javan.de`** only.
+4. File: `~/Projects/.secrets/javan-de-filter-lists-transform.env` — **skipped**; general token works.
+
+</details>
 
 ## Cutover (done)
 

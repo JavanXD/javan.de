@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Upsert account Bulk Redirect list `javan_de_quota_free` from this repo.
- * Source: CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID (javan.de-github-actions.env).
+ * Source: CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID (general All-accounts token
+ * or ~/Projects/.secrets/javan-de-filter-lists-transform.env if scoped later).
  * Does not print the token.
  */
 import { bulkRedirectItems } from "./quota-free-redirects.mjs";

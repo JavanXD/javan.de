@@ -27,17 +27,43 @@ const FEED_PATHS = [
 
 const ALIAS_HOSTS = ["https://newsletter.javan.de", "https://digest.javan.de"];
 
+/** Collapse emoji vs percent-encoded paths so Bulk Redirects accepts the list. */
+function normalizePathname(pathname) {
+  let path = pathname;
+  for (let i = 0; i < 3; i++) {
+    try {
+      const next = decodeURIComponent(path);
+      if (next === path) break;
+      path = next;
+    } catch {
+      break;
+    }
+  }
+  if (!path.startsWith("/")) path = `/${path}`;
+  return path;
+}
+
+function sourceKey(sourceUrl) {
+  const u = new URL(sourceUrl);
+  const path = normalizePathname(u.pathname);
+  const hasTrailing = path.length > 1 && path.endsWith("/");
+  const base = `${u.origin.toLowerCase()}${path.replace(/\/+$/, "") || "/"}`;
+  return hasTrailing ? `${base}/` : base;
+}
+
 function add(map, sourceUrl, targetUrl, extra = {}) {
-  if (map.has(sourceUrl)) return;
-  map.set(sourceUrl, {
+  const key = sourceKey(sourceUrl);
+  if (map.has(key)) return;
+  const subpathMatching = extra.subpath_matching ?? false;
+  map.set(key, {
     redirect: {
       source_url: sourceUrl,
       target_url: targetUrl,
       status_code: extra.status_code ?? 301,
       preserve_query_string: extra.preserve_query_string ?? true,
-      subpath_matching: extra.subpath_matching ?? false,
+      subpath_matching: subpathMatching,
       include_subdomains: false,
-      preserve_path_suffix: extra.preserve_path_suffix ?? true,
+      preserve_path_suffix: extra.preserve_path_suffix ?? subpathMatching,
     },
   });
 }

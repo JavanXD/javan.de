@@ -10,8 +10,8 @@ test("bulk list covers apex article, feed, short link, and newsletter homepage",
   assert.ok(sources.has("https://www.javan.de/the-future-security-engineer/"));
   assert.ok(sources.has("https://javan.de/feed/"));
   assert.ok(sources.has("https://javan.de/zoom"));
-  assert.ok(sources.has("https://newsletter.javan.de/"));
-  assert.ok(sources.has("https://digest.javan.de/"));
+  assert.ok(sources.has("https://newsletter.javan.de") || sources.has("https://newsletter.javan.de/"));
+  assert.ok(sources.has("https://digest.javan.de") || sources.has("https://digest.javan.de/"));
   assert.equal(sources.size, items.length);
 
   const article = items.find((item) => item.redirect.source_url.endsWith("/the-future-security-engineer/"));
@@ -25,7 +25,11 @@ test("bulk list covers apex article, feed, short link, and newsletter homepage",
   assert.equal(zoom.redirect.status_code, SHORT_LINKS.zoom.status);
   assert.equal(zoom.redirect.preserve_query_string, false);
 
-  const newsletter = items.find((item) => item.redirect.source_url === "https://newsletter.javan.de/");
+  const newsletter = items.find(
+    (item) =>
+      item.redirect.source_url === "https://newsletter.javan.de/" ||
+      item.redirect.source_url === "https://newsletter.javan.de",
+  );
   assert.equal(newsletter.redirect.subpath_matching, false);
 });
 
