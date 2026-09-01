@@ -1,4 +1,4 @@
-# www.javan.de
+# javan.de
 
 Arcade landing page for `javan.de` / `www.javan.de`, plus the root sitemap
 index and sitemap submission automation.
@@ -16,7 +16,7 @@ routes** (`javan.de/*`, `www.javan.de/*`) so it runs in front of that origin.
 | `/feed/`, `/rss/`, `?feed=rss2` | 301 → `https://blog.javan.de/feed.xml` |
 | `/wp-login.php`, `/wp-admin/`, `/wp-*` | Passed through to WordPress |
 | Unknown permalinks | Passed through so new drafts still work |
-| `/zoom`, `/meet`, `/secure-coding`, `/csslp` | Zone Single Redirects only (Worker does not handle these) |
+| `/zoom`, `/meet`, `/secure-coding`, `/csslp` | 301/302 from this Worker (frees zone Single Redirect slots for host cutovers) |
 
 **Never** attach this Worker as a Cloudflare **custom domain** on `javan.de`
 or `www.javan.de`. That replaces the DNS origin and would take WordPress,

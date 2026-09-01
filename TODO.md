@@ -1,10 +1,10 @@
-# www.javan.de
+# javan.de
 
 Working queue for the arcade landing Worker that sits in front of WordPress on `javan.de` / `www.javan.de`.
 
 ## Current / next / ops
 
-- **Now:** Landing cutover is live. Worker serves arcade assets on `/`; WP origin for `/wp-*` (login/admin kept); XML-RPC + fingerprint paths edge-404. Favicon/CSP/www-redirect/OG live. Cloudflare Worker script renamed `www-javan` → **`javan-de`** (2026-08-30); zone routes unchanged.
+- **Now:** Landing cutover is live. Worker serves arcade assets on `/`; WP origin for `/wp-*` (login/admin kept); XML-RPC + fingerprint paths edge-404. Favicon/CSP/www-redirect/OG live. Cloudflare Worker script renamed `www-javan` → **`javan-de`** (2026-08-30); GitHub repo renamed `www.javan.de` → **`javan.de`** (2026-08-31); zone routes unchanged.
 - **Next:** Search Console — submit apex sitemap. Refresh Facebook Sharing Debugger / WhatsApp cache after OG change.
 - **Later:** Dependabot merges (handled separately); WordPress privacy / publish webhook for blog sync stays in `blog.javan.de`. Cross-host SEO/favicon follow-ups from 2026-08-29 audit (other repos — see below).
 - **Ops:** Always land on `main`. No feature branches or PRs for this repo except Dependabot. Never attach this Worker as a Cloudflare **custom domain** on apex/www.
@@ -12,9 +12,9 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 ## Needs your decision
 
 - [ ] GitHub Advanced Security. Code scanning and secret scanning are off. Useful later; not blocking the landing.
-- [ ] Search Console: submit `https://javan.de/sitemap.xml` (and/or keep www if already registered). Prefer apex to match canonical tags.
+- [X] Search Console: submit `https://javan.de/sitemap.xml` (and/or keep www if already registered). Prefer apex to match canonical tags.
 - [x] `training.javan.de` is `noindex` + `robots.txt` Disallow — **leave as-is.** Confirmed intentional soft-private: training hub delivers class-code / attendee-pack materials (`~/Training/training-hub`, private `javan-training/training.javan.de`); README + Worker set `X-Robots-Tag` / meta robots / `Disallow: /` by design. Do not open for indexing without an explicit product decision.
-- [x] **High — `cf-relay.javan.de` open proxy on `*.javan.de`.** Decision (2026-08-30): **Move cf-relay off `*.javan.de` to its own domain** — an open HTTP proxy on this zone bypasses zone security protections (WAF/Access/etc.). Do **not** disable the public proxy in place without that cutover. Implementation tracked unchecked in `~/Projects/cf-edge-request-relay/TODO.md`.
+- [x] **High — `cf-relay.javan.de` open proxy on `*.javan.de`.** Decision (2026-08-30): **Move cf-relay off `*.javan.de` to its own domain** — an open HTTP proxy on this zone bypasses zone security protections (WAF/Access/etc.). Do **not** disable the public proxy in place without that cutover. Implementation tracked in `~/Projects/*.rasok.at/cf-edge-request-relay/TODO.md`. *Re-check 2026-08-31 ~15:39: Worker exists on Dev, but `cf-relay.rasok.at` NXDOMAIN; old host still 200.*
 - [ ] Keep shared edge Worker `javan-gh-pages-headers` (routes: tt-cheatsheet, conference-tracker, aroundtheworld) long-term vs migrate those origins to Cloudflare Pages/`_headers`? Source: `workers/javan-gh-pages-headers/`.
 
 ## Cutover (done)
@@ -22,7 +22,7 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - [x] Worker routes in front of WordPress (`javan.de/*`, `www.javan.de/*`), not custom-domain origin.
 - [x] Arcade landing assets from `dist/` for `/`, icons, robots, sitemaps.
 - [x] Known article slugs + feed paths 301 → `blog.javan.de`.
-- [x] Short links (`/zoom`, `/meet`, `/secure-coding`, `/csslp`) owned by zone Single Redirects (not Worker). *(2026-08-30: removed duplicate `SHORT_LINKS` from `javan-de`; live apex curls show Rules HTML body vs Worker empty-body redirect on workers.dev)*
+- [x] Short links (`/zoom`, `/meet`, `/secure-coding`, `/csslp`) owned by **`javan-de` Worker** again. *(2026-09-01: restored `SHORT_LINKS` so javan.de Free Single Redirect slots can serve `*.javan.de` → `*.rasok.at` lab cutovers; zone path rules deleted after Worker deploy + smoke)*
 - [x] `/wp-login.php` and `/wp-admin/` pass through to WordPress origin.
 - [x] Deploy from `main` via GitHub Actions + local wrangler when secrets exist.
 
@@ -63,11 +63,12 @@ Canvas: `/Users/javan/.cursor/projects/Users-javan-Projects-www-javan-de/canvase
 - [x] **flights.javan.de** — real `/favicon.ico`; probe paths hard 404 (`FlightMap`).
 - [x] **conference-tracker.javan.de** — Referrer/XFO via Worker; root `/favicon.ico`.
 - [x] **cf-relay.javan.de** — real PNG OG; framing/Referrer headers; robots/sitemap. *(own-domain move decided — see below)*
+- [x] **oslo-coffee-club.javan.de** — taken offline 2026-08-31 (deleted proxied A record; authoritative NXDOMAIN). Not in sitemaps/catalog. Origin VPS files were not touched.
 
 ### Security findings (track)
 
 - [x] No accidental `.env` / `.git` / backup secret dumps across hosts (2026-08-29 probes).
-- [ ] **High — Move cf-relay off `*.javan.de` to its own domain** (open proxy bypasses zone security protections). Next: pick domain → DNS + CF zone → update clients → decommission `cf-relay.javan.de`. Details: `~/Projects/cf-edge-request-relay/TODO.md`. Do not disable proxy until cutover.
+- [ ] **High — Move cf-relay off `*.javan.de` to its own domain** (open proxy bypasses zone security protections). Target is **`cf-relay.rasok.at`** on account **`rasok.at - Dev`**. *2026-08-31 ~15:39: Worker + custom domain exist on Dev, but public `cf-relay.rasok.at` NXDOMAIN (zone Pending; recursive NS still grace/martin). Old host still HTTP 200 — do not decommission yet.* Details: `~/Projects/*.rasok.at/cf-edge-request-relay/TODO.md`.
 - [x] Warn: WP login / xmlrpc / readme on **javan.de** + **aroundtheworld** — by design? Disable xmlrpc / fingerprint files if unused (Medium). *(2026-08-30: edge 404 for `/xmlrpc.php`, `/readme.html`, `/license.txt`, `/wp-admin/install.php`, `/wp-admin/setup-config.php` via `javan-de` Worker + `javan-gh-pages-headers` for ATW. `/wp-login.php` + `/wp-admin/` still origin.)*
 - [x] Warn/Low: missing CSP on **blog** / **luna** (optional). *(enforcing CSP shipped 2026-08-30; also tt-cheatsheet + conference-tracker via edge Worker; cf-relay HTML UI only)*
 - [x] Low: `Access-Control-Allow-Origin: *` on **flights** — drop if unused. *(FlightMap middleware strips ACAO on `/*`; pages.dev + cache-busted URLs clean. Custom-domain CDN may HIT pre-change `/data/*`/`favicon.ico` until TTL or a Cache Purge — current API tokens lack purge. tt-cheatsheet + conference-tracker + aroundtheworld already stripped via `javan-gh-pages-headers`)*
@@ -76,8 +77,8 @@ Canvas: `/Users/javan/.cursor/projects/Users-javan-Projects-www-javan-de/canvase
 
 | Host | Repo TODO |
 |------|-----------|
-| javan.de (index) | `~/Projects/www.javan.de/TODO.md` |
-| tt-cheatsheet | `~/Projects/TrustedTypes-Cheatsheet/TODO.md` |
+| javan.de (index) | `~/Projects/*.javan.de/javan.de/TODO.md` |
+| tt-cheatsheet | `~/Projects/*.javan.de/tt-cheatsheet.javan.de/TrustedTypes-Cheatsheet/TODO.md` |
 | conference-tracker | `~/Projects/ConferenceTracker/TODO.md` |
 | luna | `~/Projects/Luna/TODO.md` |
 | algocue | `~/Projects/LeetCodeTrainer/TODO.md` |

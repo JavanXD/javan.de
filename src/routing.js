@@ -1,12 +1,28 @@
 export const BLOG_ORIGIN = "https://blog.javan.de";
 export const BLOG_FEED = `${BLOG_ORIGIN}/feed.xml`;
 
-// Short links (/zoom, /meet, /secure-coding, /csslp) live in zone Single
-// Redirects only. Those rules run in http_request_dynamic_redirect *before*
-// Workers, so this script never sees apex short-link traffic. Do not re-add
-// them here: with routes on javan.de/*, returning type "origin" would hit
-// WordPress only if the Rule were deleted — Rules are the source of truth.
-// (assets.run_worker_first only orders Worker vs static assets, not vs Rules.)
+// Path short links on the landing Worker so javan.de Single Redirect slots
+// can be used for host-level lab cutovers (*.javan.de → *.rasok.at).
+// Matches the previous zone rules (status + destination).
+export const SHORT_LINKS = {
+  zoom: {
+    status: 301,
+    location: "https://us05web.zoom.us/j/9920725030?pwd=SmhYQzRyMkx1TzdUMWx1WnNJUTFBQT09",
+  },
+  meet: {
+    status: 301,
+    location: "https://meet.google.com/ctc-ubna-dpp",
+  },
+  "secure-coding": {
+    status: 302,
+    location: "https://docs.google.com/document/d/1jJvLSWIBZQgBgxcoGCgV6PPbUBss35qZwLrrMiMlcuc/",
+  },
+  csslp: {
+    status: 302,
+    location:
+      "https://docs.google.com/document/d/1Y05eOWky3rhZNqzL-w15tORRRP-U0R7sOU5kuT4p4MQ/edit?usp=sharing",
+  },
+};
 
 const LANDING_ASSETS = new Set([
   "/",
@@ -65,6 +81,11 @@ export function decide(url, slugs) {
     return { type: "block", status: 404 };
   }
 
+  if (first && Object.hasOwn(SHORT_LINKS, first) && pathHasOnlySegment(pathname, first)) {
+    const short = SHORT_LINKS[first];
+    return { type: "redirect", status: short.status, location: short.location };
+  }
+
   if (first && slugSet.has(first)) {
     return {
       type: "redirect",
@@ -103,6 +124,10 @@ function isWwwHost(hostname) {
 function firstSegment(pathname) {
   if (pathname === "/") return "";
   return pathname.slice(1).split("/")[0];
+}
+
+function pathHasOnlySegment(pathname, segment) {
+  return pathname === `/${segment}`;
 }
 
 function isFeed(url, pathname, first) {

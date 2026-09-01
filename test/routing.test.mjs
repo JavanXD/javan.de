@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import slugs from "../config/article-slugs.json" with { type: "json" };
-import { BLOG_FEED, BLOG_ORIGIN, decide, slugSetFrom } from "../src/routing.js";
+import { BLOG_FEED, BLOG_ORIGIN, decide, SHORT_LINKS, slugSetFrom } from "../src/routing.js";
 
 const slugSet = slugSetFrom(slugs);
 
@@ -89,13 +89,23 @@ test("unknown permalinks stay on WordPress so new drafts still work", () => {
   assert.equal(decide(url("/a-brand-new-unpublished-slug/"), slugSet).type, "origin");
 });
 
-// Short links are zone Single Redirects (not Worker). On apex, Rules run
-// before Workers; decide() must not claim them (would only matter if Rules
-// were removed — then these would fall through to WordPress).
-test("does not handle short links in the Worker (CF Rules own them)", () => {
-  for (const path of ["/zoom", "/meet", "/meet/", "/secure-coding", "/csslp"]) {
-    assert.equal(decide(url(path), slugSet).type, "origin", path);
-  }
+test("preserves existing short links", () => {
+  const zoom = decide(url("/zoom"), slugSet);
+  assert.equal(zoom.type, "redirect");
+  assert.equal(zoom.status, 301);
+  assert.match(zoom.location, /zoom\.us/);
+
+  const meet = decide(url("/meet/"), slugSet);
+  assert.equal(meet.status, SHORT_LINKS.meet.status);
+  assert.equal(meet.location, SHORT_LINKS.meet.location);
+
+  const csslp = decide(url("/csslp"), slugSet);
+  assert.equal(csslp.status, 302);
+  assert.equal(csslp.location, SHORT_LINKS.csslp.location);
+
+  const coding = decide(url("/secure-coding"), slugSet);
+  assert.equal(coding.status, SHORT_LINKS["secure-coding"].status);
+  assert.equal(coding.location, SHORT_LINKS["secure-coding"].location);
 });
 
 test("covers exported article slugs including percent-encoded emoji paths", () => {
