@@ -1,9 +1,8 @@
 export const BLOG_ORIGIN = "https://blog.javan.de";
 export const BLOG_FEED = `${BLOG_ORIGIN}/feed.xml`;
 
-// Path short links on the landing Worker so javan.de Single Redirect slots
-// can be used for host-level lab cutovers (*.javan.de → *.rasok.at).
-// Matches the previous zone rules (status + destination).
+// Path short links: also in Bulk Redirects + `_redirects` (quota-free).
+// Worker copy is fallback (and the reason these are not zone Single Redirects).
 export const SHORT_LINKS = {
   zoom: {
     status: 301,
@@ -37,14 +36,37 @@ const LANDING_ASSETS = new Set([
   "/sitemap-subdomains.xml",
 ]);
 
-/** WordPress fingerprint / XML-RPC paths — block at the edge (404). Keep /wp-login.php and /wp-admin/ on origin. */
-const WP_BLOCKED_PATHS = new Set([
+/** WordPress fingerprint / scanner paths — block at the edge (404). Keep /wp-login.php and /wp-admin/ on origin. */
+const WP_BLOCKED_EXACT = new Set([
   "/xmlrpc.php",
   "/readme.html",
   "/license.txt",
+  "/wlwmanifest.xml",
+  "/wp-includes/wlwmanifest.xml",
+  "/wp-config.php",
+  "/wp-content/debug.log",
+  "/wp-json/wp/v2/users",
+  "/.env",
   "/wp-admin/install.php",
   "/wp-admin/setup-config.php",
 ]);
+
+/** Common scanner path prefixes (exact login/admin paths stay on origin). */
+export function isWpBlockedPath(pathname) {
+  const path = normalizePathname(pathname).toLowerCase();
+
+  if (WP_BLOCKED_EXACT.has(path)) return true;
+  if (path.startsWith("/.env.")) return true;
+  if (path === "/phpmyadmin" || path.startsWith("/phpmyadmin/")) return true;
+  if (path.startsWith("/wp-config.")) return true;
+  if (path.startsWith("/wp-json/wp/v2/users/")) return true;
+  if (path.startsWith("/wp-includes/") && path.endsWith(".php")) return true;
+  if (path.startsWith("/wp-content/plugins/") && (path.endsWith(".php") || path.endsWith("/readme.txt"))) {
+    return true;
+  }
+
+  return false;
+}
 
 export function slugSetFrom(slugs) {
   const set = new Set();
@@ -64,7 +86,7 @@ export function slugSetFrom(slugs) {
  * WordPress stays the origin: unknown paths and /wp-* are passed through.
  */
 export function decide(url, slugs) {
-  // www → apex (no zone www Single Redirect; Worker owns this). Preserve path + query.
+  // www → apex. Zone Single Redirect is the quota-free path; this is fallback.
   if (isWwwHost(url.hostname)) {
     return {
       type: "redirect",
@@ -77,7 +99,7 @@ export function decide(url, slugs) {
   const first = firstSegment(pathname);
   const slugSet = slugs instanceof Set ? slugs : slugSetFrom(slugs);
 
-  if (WP_BLOCKED_PATHS.has(pathname.toLowerCase())) {
+  if (isWpBlockedPath(pathname)) {
     return { type: "block", status: 404 };
   }
 

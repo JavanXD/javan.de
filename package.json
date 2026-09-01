@@ -14,6 +14,7 @@
     "test": "node --test test/*.test.mjs",
     "submit:sitemap": "node scripts/submit-sitemaps.mjs",
     "deploy": "npm run build:assets && npx --yes wrangler deploy",
-    "smoke": "node scripts/smoke.mjs"
+    "smoke": "node scripts/smoke.mjs",
+    "sync:bulk-redirects": "node scripts/sync-bulk-redirects.mjs"
   }
 }

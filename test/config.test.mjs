@@ -14,7 +14,8 @@ test("Worker sits in front of WordPress via routes, not as a custom-domain origi
   assert.equal(config.main, "src/index.js");
   assert.equal(config.assets.directory, "./dist");
   assert.equal(config.assets.binding, "ASSETS");
-  assert.equal(config.assets.run_worker_first, true);
+  assert.equal(config.assets.run_worker_first, undefined);
+  assert.equal(config.observability.head_sampling_rate, 0.1);
   assert.equal(config.workers_dev, true);
 
   assert.ok(config.routes.length >= 4);

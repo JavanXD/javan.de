@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-import { copyFile, mkdir, readdir, unlink } from "node:fs/promises";
+import { copyFile, mkdir, readdir, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { staticRedirectsFile } from "./quota-free-redirects.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const dist = join(root, "dist");
@@ -23,6 +24,8 @@ for (const name of await readdir(publicDir)) {
   if (name.startsWith(".")) continue;
   await copyFile(join(publicDir, name), join(dist, name));
 }
+
+await writeFile(join(dist, "_redirects"), staticRedirectsFile());
 
 // Drop retired public assets that may linger in dist/ from older builds.
 for (const name of ["sitemap-projects.xml"]) {

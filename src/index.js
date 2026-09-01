@@ -1,10 +1,11 @@
 import slugs from "../config/article-slugs.json" with { type: "json" };
+import { fetchOriginWithCache } from "./origin-cache.js";
 import { decide, slugSetFrom } from "./routing.js";
 
 const SLUGS = slugSetFrom(slugs);
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const decision = decide(url, SLUGS);
     const workersDev = url.hostname.endsWith(".workers.dev");
@@ -35,7 +36,7 @@ export default {
     }
 
     // Route Worker (not a custom domain): fetch(request) goes to WordPress.
-    return fetch(request);
+    return fetchOriginWithCache(request, ctx);
   },
 };
 

@@ -11,12 +11,21 @@ routes** (`javan.de/*`, `www.javan.de/*`) so it runs in front of that origin.
 
 | Path | What happens |
 | --- | --- |
-| `/`, landing assets, sitemaps, `robots.txt` | Arcade page from this repo |
-| Known article slugs | 301 → `https://blog.javan.de/{slug}/` |
-| `/feed/`, `/rss/`, `?feed=rss2` | 301 → `https://blog.javan.de/feed.xml` |
-| `/wp-login.php`, `/wp-admin/`, `/wp-*` | Passed through to WordPress |
-| Unknown permalinks | Passed through so new drafts still work |
-| `/zoom`, `/meet`, `/secure-coding`, `/csslp` | 301/302 from this Worker (frees zone Single Redirect slots for host cutovers) |
+| `/`, landing assets, sitemaps, `robots.txt` | Arcade **Static Assets** (`_headers`). Worker does not run (0 quota). |
+| Known article slugs, `/feed/`, `/zoom` etc. | **Bulk Redirects** + `_redirects` (0 Worker quota). Worker `decide()` is fallback. |
+| `www.javan.de` | Zone **Single Redirect** → apex (path+query). Worker fallback if the rule misses. |
+| `/wp-login.php`, `/wp-admin/`, `/wp-*` | Worker passthrough to WordPress |
+| Unknown permalinks | Worker passthrough so new drafts still work |
+| `?feed=rss2` | Worker 301 → `https://blog.javan.de/feed.xml` (query match is not in Bulk) |
+
+**Origin caching (WordPress passthrough):** anonymous `GET` requests for public
+HTML pages are cached in the Worker for **24 hours** via the Cache API. This
+reduces origin load but **still counts** toward the account Workers request
+quota. Never cached: `/wp-login.php`, `/wp-admin/*`, requests with
+`Cookie`/`Authorization`, non-GET methods, preview/nonce query params, non-HTML
+responses, non-2xx, or responses with `Set-Cookie`. Scanner/fingerprint paths
+(e.g. `/xmlrpc.php`, `/.env`, `/wp-json/wp/v2/users`) return **404 at the edge**
+without hitting origin.
 
 **Never** attach this Worker as a Cloudflare **custom domain** on `javan.de`
 or `www.javan.de`. That replaces the DNS origin and would take WordPress,

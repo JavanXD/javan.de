@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import slugs from "../config/article-slugs.json" with { type: "json" };
-import { BLOG_FEED, BLOG_ORIGIN, decide, SHORT_LINKS, slugSetFrom } from "../src/routing.js";
+import { BLOG_FEED, BLOG_ORIGIN, decide, isWpBlockedPath, SHORT_LINKS, slugSetFrom } from "../src/routing.js";
 
 const slugSet = slugSetFrom(slugs);
 
@@ -78,11 +78,32 @@ test("keeps WordPress login and admin on the origin", () => {
 });
 
 test("blocks WordPress XML-RPC and fingerprint files", () => {
-  for (const path of ["/xmlrpc.php", "/readme.html", "/license.txt", "/wp-admin/install.php", "/wp-admin/setup-config.php"]) {
+  for (const path of [
+    "/xmlrpc.php",
+    "/readme.html",
+    "/license.txt",
+    "/wlwmanifest.xml",
+    "/wp-includes/wlwmanifest.xml",
+    "/wp-config.php",
+    "/.env",
+    "/.env.local",
+    "/phpmyadmin/",
+    "/wp-json/wp/v2/users",
+    "/wp-includes/versions.php",
+    "/wp-content/plugins/akismet/readme.txt",
+    "/wp-content/debug.log",
+    "/wp-admin/install.php",
+    "/wp-admin/setup-config.php",
+  ]) {
     const decision = decide(url(path), slugSet);
     assert.equal(decision.type, "block", path);
     assert.equal(decision.status, 404, path);
   }
+});
+
+test("isWpBlockedPath is case-insensitive", () => {
+  assert.equal(isWpBlockedPath("/XMLRPC.php"), true);
+  assert.equal(isWpBlockedPath("/wp-login.php"), false);
 });
 
 test("unknown permalinks stay on WordPress so new drafts still work", () => {

@@ -93,6 +93,18 @@ await check("_headers", (contents) => {
   }
 });
 
+await check("_redirects", (contents) => {
+  if (!contents.includes("/the-future-security-engineer")) {
+    failures.push("_redirects is missing a known article slug");
+  }
+  if (!contents.includes("https://blog.javan.de/feed.xml")) {
+    failures.push("_redirects is missing the blog feed target");
+  }
+  if (!contents.includes("/zoom ")) {
+    failures.push("_redirects is missing /zoom");
+  }
+});
+
 if (failures.length) {
   console.error("Build validation failed:");
   for (const failure of failures) console.error(`  - ${failure}`);
