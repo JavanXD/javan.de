@@ -15,6 +15,7 @@
     "submit:sitemap": "node scripts/submit-sitemaps.mjs",
     "deploy": "npm run build:assets && npx --yes wrangler deploy",
     "smoke": "node scripts/smoke.mjs",
-    "sync:bulk-redirects": "node scripts/sync-bulk-redirects.mjs"
+    "sync:bulk-redirects": "node scripts/sync-bulk-redirects.mjs",
+    "sync:asec-app-redirects": "node scripts/sync-asec-app-redirects.mjs"
   }
 }

@@ -4,10 +4,10 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 
 ## Current / next / ops
 
-- **Now:** P1 quota-free edge is live (2026-09-01). **Bulk Redirects** list `javan_de_quota_free` + account phase rule synced (288 items). **Transform Rules** on `javan.de` for `tt-cheatsheet` + `aroundtheworld` (2 rules); obsolete **`javan-gh-pages-headers` Worker deleted** *(2026-09-01)*. Arcade `/` + `_headers` are Static Assets (0 Worker quota). Zone Single Redirect `www.javan.de` → apex (rule `78323227…`, **10/10**). Known article/feed/short-link 301s via `_redirects` + Bulk (www copies + newsletter/digest homepage). WP login/admin + scanners still Worker. Cloudflare Worker script renamed `www-javan` → **`javan-de`** (2026-08-30); GitHub repo renamed `www.javan.de` → **`javan.de`** (2026-08-31).
-- **Next (cost / abuse):** Optional permalink rate-limit / Bot Fight. Playbook: `~/Projects/rasok.at/docs/CLOUDFLARE-COST-OPTIMIZATION.md`.
+- **Now:** P1 quota-free edge is live (2026-09-01). **Bulk Redirects** list `javan_de_quota_free` + account phase rule synced (288 items). **Transform Rules** on `javan.de` for `tt-cheatsheet` + `aroundtheworld` (2 rules); obsolete **`javan-gh-pages-headers` Worker deleted** *(2026-09-01)*. Arcade `/` + `_headers` are Static Assets (0 Worker quota). Zone Single Redirect `www.javan.de` → apex (rule `78323227…`, **10/10**). Known article/feed/short-link 301s via `_redirects` + Bulk (www copies + newsletter/digest homepage). WP login/admin + scanners still Worker. Cloudflare Worker script renamed `www-javan` → **`javan-de`** (2026-08-30); GitHub repo renamed `www.javan.de` → **`javan.de`** (2026-08-31). **asec.app** zone added on Javan (pending NS); `secure-coding.asec.app` Bulk Redirect is configured but **not live** until nameservers move (see below).
+- **Next (cost / abuse):** Optional permalink rate-limit / WAF custom rules for scanner junk paths (**not** Bot Fight Mode — BFM stays Off; indexed + AI agents). Playbook: `~/Projects/rasok.at/docs/CLOUDFLARE-BASELINE.md`. **You:** `asec.app` NS/DNSSEC — human checklist is in `secure-coding.javan.de/TODO.md` (disable DS, then `grace`/`martin`, then unpublish Google Sites).
 - **Later:** Search Console — submit apex sitemap. Refresh Facebook Sharing Debugger / WhatsApp cache after OG change. Dependabot merges (handled separately); WordPress privacy / publish webhook for blog sync stays in `blog.javan.de`. Cross-host SEO/favicon follow-ups from 2026-08-29 audit (other repos — see below).
-- **Ops:** Always land on `main`. No feature branches or PRs for this repo except Dependabot. Never attach this Worker as a Cloudflare **custom domain** on apex/www. Cloudflare spend: keep this zone **Free**; do not buy Pro for extra Single Redirects (**Bulk Redirects** / zone rules first; Worker only as slot workaround). Umbrella 2026-09-01: **no Workers Paid**; **quota-free is better** (this checklist P1). Cross-account playbook: `~/Projects/rasok.at/docs/CLOUDFLARE-COST-OPTIMIZATION.md`.
+- **Ops:** Always land on `main`. No feature branches or PRs for this repo except Dependabot. Never attach this Worker as a Cloudflare **custom domain** on apex/www. Cloudflare spend: keep this zone **Free**; do not buy Pro for extra Single Redirects (**Bulk Redirects** / zone rules first; Worker only as slot workaround). Umbrella 2026-09-01: **no Workers Paid**; **quota-free is better** (this checklist P1). Cross-account playbook: `~/Projects/rasok.at/docs/CLOUDFLARE-BASELINE.md`.
 
 ## Cloudflare cost — WP scan / request-pool hygiene (Javan account)
 
@@ -18,7 +18,7 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - **Workers Static Assets** (file in `dist/`, and `run_worker_first` does **not** match that path) → **$0, 0 Worker quota**. Landing arcade + `_headers` / `_redirects` use this. `run_worker_first` is **off** (2026-09-01).
 - **Cache API / CDN cache in front of WP origin** → still a **Worker request** whenever this script runs. Saves origin CPU, **not** the 100k cap.
 - **WordPress HTML cannot become Static Assets** on this Worker unless those pages are files in `dist/` (that is already `blog.javan.de`). Remaining `/wp-*` + unknown slugs are inherently origin passthrough → Worker.
-- Zone WAF / Bot Fight **before** the Worker can 403 scanners with **no** Worker invocation (saves quota). Edge 404 **inside** the Worker still counts.
+- Zone WAF custom rules for scanner/junk paths **before** the Worker can 403 with **no** Worker invocation (saves quota). **Do not** enable Bot Fight Mode (baseline: indexed everywhere + allow AI agents). Edge 404 **inside** the Worker still counts.
 
 P1 is the viral-isolation plan (decided 2026-09-01). Cache API stays for leftover WP origin hits; it does not protect training.javan.de from a 100k clip.
 
@@ -42,7 +42,7 @@ Standing rule: **if it does not consume Worker quota, it is better.** Worker `fe
 - [x] **`javan-gh-pages-headers`** — per-host **Transform Rules** on zone `javan.de` for `tt-cheatsheet.javan.de` + `aroundtheworld.javan.de` *(rules `gh_pages_common_headers`, `tt_cheatsheet_csp`; ruleset `5433226472194944b9079f48bea8e59e`)*. Obsolete Worker script **deleted** *(2026-09-01)*. **Caveat:** aroundtheworld WP fingerprint **404** + missing-`og:image` HTML injection were Worker-only — now origin/WP (`xmlrpc.php` **405**). Revisit with WAF or origin fix if needed.
 - [x] **SHORT_LINKS** (`/zoom` etc.) — on **`_redirects`** (0 Worker quota). Zone slots stay for lab host 301s (now 10/10 including www). Worker copy is fallback.
 - [ ] **Optional — rate-limit unknown permalinks** (paths that are not landing assets, not known article slugs, not `/wp-login.php`/`/wp-admin/`): per-IP cap via CF Rate Limiting binding or DO so a single scanner IP cannot burn tens of thousands of origin fetches/day. Return 429 (or edge 404) when exceeded.
-- [ ] **Optional — Bot Fight / WAF custom rules** on zone `javan.de` for obvious scanner UAs / high-rate 404 bursts (Free Bot Fight Mode if not already on). Prefer edge challenge over Paid WAF.
+- [ ] **Optional — WAF custom rules** on zone `javan.de` for scanner/junk paths / high-rate 404 bursts (Free ≤5 rules, no regex). Prefer edge block over Paid WAF. **Do not** enable Bot Fight Mode (see [`CLOUDFLARE-BASELINE.md`](../../rasok.at/docs/CLOUDFLARE-BASELINE.md#indexing--ai-crawlers)).
 - [ ] **Confirm leftover lab Workers** on Javan are deleted after rasok cutovers (umbrella Javan cleanup) so scans of old hosts cannot steal from this same 100k pool.
 
 ### Done when
@@ -53,8 +53,21 @@ Standing rule: **if it does not consume Worker quota, it is better.** Worker `fe
 - [x] Log sample &lt; 100% in wrangler.
 - [x] Document behavior briefly in README (what is cached / what is not).
 
+## asec.app — secure-coding host 301 (2026-09-03)
+
+No `asec.app` / `*.asec.app` repo. DNS was **not** on Cloudflare (Google Cloud DNS / Squarespace Domains). Zone created on **Javan** account, Free, **pending**.
+
+- **Zone:** `asec.app` `dfb714f8d4ec19ff26b601bb0db71431` (pending). CF NS: `grace.ns.cloudflare.com`, `martin.ns.cloudflare.com`. Registrar: Squarespace Domains II LLC. Original NS: `ns-cloud-a*.googledomains.com`.
+- **Redirect:** separate Bulk Redirect list **`asec_app_legacy`** (not mixed into `javan_de_quota_free`) + account rule `eval_asec_app_legacy`. Hostname-wide **301** `https://secure-coding.asec.app/*` → `https://secure-coding.javan.de/` with **path dropped** (old Google Sites `/home`, `/aufgaben/a1-injection` do not map to `/module/m01`). `www.secure-coding` does not exist. DNS-only left on apex (Squarespace A), `www` + `test` (Google Sites), Mailgun MX/SPF/DKIM/DMARC. `secure-coding` is proxied originless (`AAAA 100::`). Always HTTPS + SSL Full on the zone.
+- **Re-sync:** `export CLOUDFLARE_ACCOUNT_ID=d4190a56f523423d2c5e6fa542932c35 CLOUDFLARE_API_TOKEN=$(cat ~/Projects/.secrets/cloudflare-general-api-token)` → `npm run sync:asec-app-redirects`.
+- **Live curl will keep hitting Google Sites** until NS are on Cloudflare.
+- **Human steps** (DNSSEC → NS → curl 301 → unpublish Sites): `~/Projects/*.javan.de/secure-coding.javan.de/TODO.md` — do not duplicate every checkbox here.
+
 ## Needs your decision
 
+- [ ] **asec.app nameservers + DNSSEC (blocks `secure-coding.asec.app` 301).** Human checklist lives in **`secure-coding.javan.de/TODO.md`**. Registrar is still Google Cloud DNS / Squarespace; DS is live. Bulk list `asec_app_legacy` is configured but not firing.
+- [ ] **asec.app apex / `www` / mail (Mailgun):** leave grey-cloud as-is, **or** move those onto Cloudflare too? Cutover so far only covers `secure-coding.asec.app`.
+- [ ] **WordPress origin still has `kontakt@javan.de` on imprint (1531) and privacy-policy (1532).** You will update those in WP admin later. No Worker rewrite — origin HTML is served as-is.
 - [x] **Viral blog vs shared Javan 100k Worker cap → isolate (B).** Decided 2026-09-01: **quota-free is better.** Bulk Redirect / `_redirects` for `javan.de/<slug>` 301s; zone www→apex; canonical/share `blog.javan.de`; Worker only for WP admin/login/unknown. Do **not** buy Paid to absorb a viral post. Implement: P1.
 - [x] **Headers without a Worker.** Decided 2026-09-01: **anything that does not consume Worker quota is fine and better.** Per-app **`_headers`** (preferred, in git) or zone **Transform Rules** (Free 10, 0 quota; one rule can set many headers). Worker `fetch` headers only when the Worker already generates the response (`/api`, training HTML). Implement: P1 + about / unagentic TODOs.
 - [X] Search Console: submit `https://javan.de/sitemap.xml` (and/or keep www if already registered). Prefer apex to match canonical tags.
