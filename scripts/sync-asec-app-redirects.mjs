@@ -38,7 +38,7 @@ let list = (lists.result || []).find((row) => row.name === LIST_NAME);
 if (!list) {
   const created = await api("POST", `/accounts/${ACCOUNT}/rules/lists`, {
     name: LIST_NAME,
-    description: "asec.app secure-coding hostname-wide 301 to secure-coding.javan.de (drop old path)",
+    description: "asec.app apex/www/test → javan.de; secure-coding → secure-coding.javan.de (drop old path)",
     kind: "redirect",
   });
   list = created.result;
@@ -70,7 +70,7 @@ try {
 const rule = {
   ref: RULE_REF,
   expression: `http.request.full_uri in $${LIST_NAME}`,
-  description: "Bulk Redirects: asec.app secure-coding 301s",
+  description: "Bulk Redirects: asec.app hostname 301s",
   action: "redirect",
   action_parameters: {
     from_list: { name: LIST_NAME, key: "http.request.full_uri" },

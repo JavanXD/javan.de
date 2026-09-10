@@ -4,8 +4,8 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 
 ## Current / next / ops
 
-- **Now:** P1 quota-free edge is live (2026-09-01). **Bulk Redirects** list `javan_de_quota_free` + account phase rule synced (288 items). **Transform Rules** on `javan.de` for `tt-cheatsheet` + `aroundtheworld` (2 rules); obsolete **`javan-gh-pages-headers` Worker deleted** *(2026-09-01)*. Arcade `/` + `_headers` are Static Assets (0 Worker quota). Zone Single Redirect `www.javan.de` → apex (rule `78323227…`, **10/10**). Known article/feed/short-link 301s via `_redirects` + Bulk (www copies + newsletter/digest homepage). WP login/admin + scanners still Worker. Cloudflare Worker script renamed `www-javan` → **`javan-de`** (2026-08-30); GitHub repo renamed `www.javan.de` → **`javan.de`** (2026-08-31). **asec.app** zone added on Javan (pending NS); `secure-coding.asec.app` Bulk Redirect is configured but **not live** until nameservers move (see below).
-- **Next (cost / abuse):** Optional permalink rate-limit / WAF custom rules for scanner junk paths (**not** Bot Fight Mode — BFM stays Off; indexed + AI agents). Playbook: `~/Projects/rasok.at/docs/CLOUDFLARE-BASELINE.md`. **You:** `asec.app` NS/DNSSEC — human checklist is in `secure-coding.javan.de/TODO.md` (disable DS, then `grace`/`martin`, then unpublish Google Sites).
+- **Now:** P1 quota-free edge is live (2026-09-01). **Bulk Redirects** list `javan_de_quota_free` + account phase rule synced (288 items). **Transform Rules** on `javan.de` for `tt-cheatsheet` + `aroundtheworld` (2 rules); obsolete **`javan-gh-pages-headers` Worker deleted** *(2026-09-01)*. Arcade `/` + `_headers` are Static Assets (0 Worker quota). Zone Single Redirect `www.javan.de` → apex (rule `78323227…`, **10/10**). Known article/feed/short-link 301s via `_redirects` + Bulk (www copies + newsletter/digest homepage). WP login/admin + scanners still Worker. Cloudflare Worker script renamed `www-javan` → **`javan-de`** (2026-08-30); GitHub repo renamed `www.javan.de` → **`javan.de`** (2026-08-31). **asec.app** zone **Active** on Javan (`grace`/`martin`): apex + `www` **301 → https://javan.de/**; `secure-coding.asec.app` **301 → https://secure-coding.javan.de/** (path dropped). **BIMI** `/bimi-logo.svg` Blinky Tiny PS — foot/skirt pixels restored 2026-09-03 (`javan.eu` TXT still points here).
+- **Next (cost / abuse):** Optional permalink rate-limit / WAF custom rules for scanner junk paths (**not** Bot Fight Mode — BFM stays Off; indexed + AI agents). Playbook: `~/Projects/rasok.at/docs/CLOUDFLARE-BASELINE.md`. **You:** unpublish leftover Google Sites custom domains (`www` / `secure-coding` / `test.asec.app`, and `asec.yaaw.de` if mapped); optional mail smoke any `@asec.app` → Gmail; DS at Hetzner when ready (CF DNSSEC already `pending`).
 - **Later:** Search Console — submit apex sitemap. Refresh Facebook Sharing Debugger / WhatsApp cache after OG change. Dependabot merges (handled separately); WordPress privacy / publish webhook for blog sync stays in `blog.javan.de`. Cross-host SEO/favicon follow-ups from 2026-08-29 audit (other repos — see below).
 - **Ops:** Always land on `main`. No feature branches or PRs for this repo except Dependabot. Never attach this Worker as a Cloudflare **custom domain** on apex/www. Cloudflare spend: keep this zone **Free**; do not buy Pro for extra Single Redirects (**Bulk Redirects** / zone rules first; Worker only as slot workaround). Umbrella 2026-09-01: **no Workers Paid**; **quota-free is better** (this checklist P1). Cross-account playbook: `~/Projects/rasok.at/docs/CLOUDFLARE-BASELINE.md`.
 
@@ -53,20 +53,28 @@ Standing rule: **if it does not consume Worker quota, it is better.** Worker `fe
 - [x] Log sample &lt; 100% in wrangler.
 - [x] Document behavior briefly in README (what is cached / what is not).
 
-## asec.app — secure-coding host 301 (2026-09-03)
+## asec.app — hostname 301s (2026-09-10)
 
-No `asec.app` / `*.asec.app` repo. DNS was **not** on Cloudflare (Google Cloud DNS / Squarespace Domains). Zone created on **Javan** account, Free, **pending**.
+No `asec.app` / `*.asec.app` repo. **Schulung** lives at https://secure-coding.javan.de (local: http://127.0.0.1:4173/). Brand park is https://javan.de.
 
-- **Zone:** `asec.app` `dfb714f8d4ec19ff26b601bb0db71431` (pending). CF NS: `grace.ns.cloudflare.com`, `martin.ns.cloudflare.com`. Registrar: Squarespace Domains II LLC. Original NS: `ns-cloud-a*.googledomains.com`.
-- **Redirect:** separate Bulk Redirect list **`asec_app_legacy`** (not mixed into `javan_de_quota_free`) + account rule `eval_asec_app_legacy`. Hostname-wide **301** `https://secure-coding.asec.app/*` → `https://secure-coding.javan.de/` with **path dropped** (old Google Sites `/home`, `/aufgaben/a1-injection` do not map to `/module/m01`). `www.secure-coding` does not exist. DNS-only left on apex (Squarespace A), `www` + `test` (Google Sites), Mailgun MX/SPF/DKIM/DMARC. `secure-coding` is proxied originless (`AAAA 100::`). Always HTTPS + SSL Full on the zone.
+- **Zone:** `asec.app` `dfb714f8d4ec19ff26b601bb0db71431` (**Active**, Javan, Free). Live NS: `grace.ns.cloudflare.com`, `martin.ns.cloudflare.com`. Stays on **Javan** (not Dev).
+- **Live 301s** (Bulk list **`asec_app_legacy`** + account rule `eval_asec_app_legacy`; apex/`www`/`test`/`secure-coding` proxied originless `AAAA 100::`):
+  - `https://asec.app/*` + `https://www.asec.app/*` + `https://test.asec.app/*` → `https://javan.de/` (**path dropped**)
+  - `https://secure-coding.asec.app/*` → `https://secure-coding.javan.de/` (**path dropped**)
+- **Mail (2026-09-10, reversed):** inbound-forward role 2 — Email Routing **enabled/ready**; catch-all → existing Worker `email-spam-drop` → verified `javanxd@gmail.com` (spam indications dropped). MX `route*.mx.cloudflare.net`; one SPF `include:_spf.mx.cloudflare.net`; DKIM `cf2024-1._domainkey`; DMARC `p=quarantine; pct=100` + CF Email Auth `rua`. BIMI skipped (no sending brand). Squarespace `_domainconnect` CNAME removed.
 - **Re-sync:** `export CLOUDFLARE_ACCOUNT_ID=d4190a56f523423d2c5e6fa542932c35 CLOUDFLARE_API_TOKEN=$(cat ~/Projects/.secrets/cloudflare-general-api-token)` → `npm run sync:asec-app-redirects`.
-- **Live curl will keep hitting Google Sites** until NS are on Cloudflare.
-- **Human steps** (DNSSEC → NS → curl 301 → unpublish Sites): `~/Projects/*.javan.de/secure-coding.javan.de/TODO.md` — do not duplicate every checkbox here.
+- **Human leftover:** unpublish Google Sites custom domains (edge already 301s); mail smoke any `@asec.app` → Gmail; DS at Hetzner (CF DNSSEC `pending` — do not auto-publish).
 
 ## Needs your decision
 
-- [ ] **asec.app nameservers + DNSSEC (blocks `secure-coding.asec.app` 301).** Human checklist lives in **`secure-coding.javan.de/TODO.md`**. Registrar is still Google Cloud DNS / Squarespace; DS is live. Bulk list `asec_app_legacy` is configured but not firing.
-- [ ] **asec.app apex / `www` / mail (Mailgun):** leave grey-cloud as-is, **or** move those onto Cloudflare too? Cutover so far only covers `secure-coding.asec.app`.
+- [x] **asec.app workshop 301 on CF** (Javan zone + `asec_app_legacy`). Live: `secure-coding.asec.app` → `https://secure-coding.javan.de/`. *(2026-09-03 ready; NS Active + smoke 2026-09-10)*
+- [x] **asec.app apex / `www` → javan.de.** Decided 2026-09-10: hostname-wide **301** to `https://javan.de/` (drop old Squarespace/Sites paths). No Mailgun.
+- [x] **asec.app Email Routing.** Reversed 2026-09-10 (was “do not enable”): catch-all → `email-spam-drop` → Gmail; CF MX/SPF/DKIM; DMARC quarantine + CF `rua`. *(API: routing `enabled`/`ready`; destination verified `2024-04-04`; Worker reused, `workers_dev` off)*
+- [x] **asec.app Free security baseline (Active gaps).** HSTS 6mo includeSubDomains no preload; DNSSEC CF=`pending`; script monitoring On; leaked-cred On + Free RL `Leaked credential check` (`a6538c68…`); AI Allow / BFM Off. *(2026-09-10)*
+- [x] **`test.asec.app` park.** Proxied originless `AAAA 100::` + Bulk 301 → `https://javan.de/` (path dropped). `_domainconnect` Squarespace CNAME deleted.
+- [ ] **You:** Unpublish leftover Google Sites custom domains — Google Sites → **Settings → Custom domains** → remove `www.asec.app` / `secure-coding.asec.app` / `test.asec.app` (and `asec.yaaw.de` if listed). Edge 301s already replace them.
+- [ ] **You:** Mail smoke — send to any `@asec.app` address → confirm it lands in Gmail (spam-drop Worker).
+- [ ] **You:** Add DNSSEC **DS** at Hetzner for `asec.app` when ready (CF already `pending`; do **not** auto-publish).
 - [ ] **WordPress origin still has `kontakt@javan.de` on imprint (1531) and privacy-policy (1532).** You will update those in WP admin later. No Worker rewrite — origin HTML is served as-is.
 - [x] **Viral blog vs shared Javan 100k Worker cap → isolate (B).** Decided 2026-09-01: **quota-free is better.** Bulk Redirect / `_redirects` for `javan.de/<slug>` 301s; zone www→apex; canonical/share `blog.javan.de`; Worker only for WP admin/login/unknown. Do **not** buy Paid to absorb a viral post. Implement: P1.
 - [x] **Headers without a Worker.** Decided 2026-09-01: **anything that does not consume Worker quota is fine and better.** Per-app **`_headers`** (preferred, in git) or zone **Transform Rules** (Free 10, 0 quota; one rule can set many headers). Worker `fetch` headers only when the Worker already generates the response (`/api`, training HTML). Implement: P1 + about / unagentic TODOs.
