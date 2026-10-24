@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { BLOG_FEED, BLOG_ORIGIN, SHORT_LINKS } from "../src/routing.js";
-import { bulkRedirectItems, staticRedirectsFile } from "../scripts/quota-free-redirects.mjs";
+import { bulkRedirectItems, IMPRINT, staticRedirectsFile } from "../scripts/quota-free-redirects.mjs";
 
 test("bulk list covers apex article, feed, short link, and newsletter homepage", () => {
   const items = bulkRedirectItems();
@@ -10,6 +10,7 @@ test("bulk list covers apex article, feed, short link, and newsletter homepage",
   assert.ok(sources.has("https://www.javan.de/the-future-security-engineer/"));
   assert.ok(sources.has("https://javan.de/feed/"));
   assert.ok(sources.has("https://javan.de/zoom"));
+  assert.ok(sources.has("https://javan.de/imprint/") || sources.has("https://javan.de/imprint"));
   assert.ok(sources.has("https://newsletter.javan.de") || sources.has("https://newsletter.javan.de/"));
   assert.ok(sources.has("https://digest.javan.de") || sources.has("https://digest.javan.de/"));
   assert.equal(sources.size, items.length);
@@ -31,11 +32,20 @@ test("bulk list covers apex article, feed, short link, and newsletter homepage",
       item.redirect.source_url === "https://newsletter.javan.de",
   );
   assert.equal(newsletter.redirect.subpath_matching, false);
+
+  const imprint = items.find(
+    (item) =>
+      item.redirect.source_url === "https://javan.de/imprint/" ||
+      item.redirect.source_url === "https://javan.de/imprint",
+  );
+  assert.equal(imprint.redirect.target_url, IMPRINT);
+  assert.equal(imprint.redirect.status_code, 301);
 });
 
 test("static _redirects file is path-only for this Worker", () => {
   const file = staticRedirectsFile();
   assert.match(file, /^\/the-future-security-engineer /m);
   assert.match(file, /\/zoom https:\/\/us05web\.zoom\.us\/.* 301/m);
+  assert.match(file, /^\/imprint\/ https:\/\/imprint\.javan\.de\/ 301/m);
   assert.doesNotMatch(file, /newsletter\.javan\.de/);
 });
