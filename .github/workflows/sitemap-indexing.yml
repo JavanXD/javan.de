@@ -1,4 +1,4 @@
-name: Build and submit sitemaps
+name: Build and refresh sitemaps
 
 on:
   schedule:
@@ -47,6 +47,3 @@ jobs:
             git pull --rebase origin "$DEFAULT_BRANCH"
             git push origin "HEAD:$DEFAULT_BRANCH"
           fi
-
-      - name: Submit sitemap pings
-        run: npm run submit:sitemap

@@ -40,8 +40,8 @@ login, and RSS offline.
   - `public/sitemap-main.xml` (root pages)
   - `public/sitemap-subdomains.xml` (subdomains and major sites)
   - `public/robots.txt` with sitemap reference
-- Runs a weekly + manual GitHub Action to refresh and submit sitemap pings to
-  Google and Bing.
+- Runs a weekly + manual GitHub Action to refresh the sitemap files. Search
+  engines read `lastmod` from the published files.
 
 ### Dynamic data, not just a date stamp
 
@@ -80,7 +80,6 @@ npm run validate
 npm run deploy
 npm run smoke
 npm run generate:sitemap
-npm run submit:sitemap
 ```
 
 ## Updating URLs
@@ -112,8 +111,8 @@ This is a solo-maintained repo, so it's set up to keep itself current safely:
   version bumps are left open with a comment flagging them for manual
   review, since those are the ones most likely to contain breaking changes.
 - **`.github/workflows/sitemap-indexing.yml`** — weekly (Mondays) rebuilds
-  the sitemaps from live data and pings Google/Bing; commits changes back
-  to `main` directly if anything changed.
+  the sitemaps from live data and commits changes back to `main` when a
+  file changed. Search engines read `lastmod` from the published files.
 - Repo-level `allow_auto_merge` and Dependabot security updates/alerts are
   enabled so vulnerable dependencies get patched automatically too.
 
