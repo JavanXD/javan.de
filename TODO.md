@@ -11,7 +11,8 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 
 ## Needs your decision
 
-- [ ] **Shared design for all `*.javan.de` sites (2026-11-22):** how shared CSS variables, base styles, footer, logo, and profile photo reach the sites: shared source repo with a pinned copy built into each site (same origin) · one runtime stylesheet on `static.javan.de` · color and font variables only. Follow-up: which current site look is the reference.
+- [x] **Shared design for all `*.javan.de` sites (2026-11-22):** how shared CSS variables, base styles, footer, logo, and profile photo reach the sites. Decided 2026-11-22: **shared source repo; each site builds in a pinned copy and serves it from its own domain** (no runtime stylesheet on `static.javan.de`).
+- [ ] **Shared design — reference look:** which current site look the shared CSS variables and base styles start from.
 - [x] **Trainer search visibility (2026-11-22):** Stuttgart · Frankfurt/Rhein-Main · Karlsruhe · Heilbronn · Pforzheim · Germany-wide/DACH remote. *(Picked 2026-11-22; München left out.)*
 - [x] **German trainer page location:** `training.javan.de/catalog/de/`, generated from the catalog source of truth. *(Recommended default, 2026-11-22; live.)*
 - [x] **Public contact address on about.javan.de:** catalog contact form for training inquiries; `javan@rasok.at` stays as the personal contact. *(Recommended default, 2026-11-22.)*
