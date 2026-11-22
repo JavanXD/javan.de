@@ -1,4 +1,4 @@
-# Allow all search engines and crawlers
+# Allow search engines and crawlers
 User-agent: *
 Allow: /
 
@@ -44,6 +44,8 @@ Allow: /
 
 User-agent: meta-externalagent
 Allow: /
+
+Sitemap: https://javan.de/sitemap.xml
 
 # Sitemap location
 Sitemap: https://javan.de/sitemap.xml

@@ -1,0 +1,84 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://javan.de/#person",
+  "name": "Javan Rasokat",
+  "alternateName": "javanrasokat",
+  "givenName": "Javan",
+  "familyName": "Rasokat",
+  "jobTitle": ["Security Trainer", "Senior Application Security Specialist"],
+  "description": "Security trainer, senior application security specialist, and doctoral security researcher at the Chair of Cybersecurity, University of Bayreuth. Hands-on secure coding, secure-by-design, and AI security trainings in German and English.",
+  "url": "https://javan.de/",
+  "mainEntityOfPage": "https://about.javan.de/",
+  "homeLocation": {
+    "@type": "Place",
+    "name": "Stuttgart, Baden-Württemberg, Germany",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Stuttgart",
+      "addressRegion": "Baden-Württemberg",
+      "addressCountry": "DE"
+    }
+  },
+  "email": "javan@rasok.at",
+  "knowsLanguage": ["de", "en"],
+  "hasOccupation": {
+    "@type": "Occupation",
+    "name": "Security Trainer",
+    "occupationLocation": { "@type": "City", "name": "Stuttgart" }
+  },
+  "image": [
+    "https://about.javan.de/javan-800.png",
+    "https://about.javan.de/javan.webp"
+  ],
+  "sameAs": [
+    "https://about.javan.de/",
+    "https://blog.javan.de/",
+    "https://training.javan.de/catalog/",
+    "https://projects.javan.de/",
+    "https://imprint.javan.de/",
+    "https://www.linkedin.com/in/javan-rasokat",
+    "https://x.com/javanrasokat",
+    "https://github.com/JavanXD",
+    "https://bsky.app/profile/javanrasokat.bsky.social",
+    "https://scholar.google.com/citations?user=c1H9A8UAAAAJ",
+    "https://www.researchgate.net/profile/Javan-Rasokat"
+  ],
+  "alumniOf": [
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "Aalen University",
+      "url": "https://www.hs-aalen.de"
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "DHBW Karlsruhe",
+      "url": "https://www.karlsruhe.dhbw.de"
+    }
+  ],
+  "worksFor": [
+    {
+      "@type": "Organization",
+      "name": "Sage",
+      "url": "https://www.sage.com"
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "University of Bayreuth",
+      "department": "Chair of Cybersecurity",
+      "url": "https://www.cysec.uni-bayreuth.de"
+    }
+  ],
+  "knowsAbout": [
+    "Application Security",
+    "Product Security",
+    "Security Architecture",
+    "Secure Software Development",
+    "Penetration Testing",
+    "Security Automation",
+    "Cloud Security",
+    "Secure Coding",
+    "AI Security",
+    "Security Training"
+  ]
+}

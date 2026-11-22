@@ -32,7 +32,7 @@ function inlineStyleHashes(html) {
   );
 }
 
-await check("index.html", (contents) => {
+await check("index.html", async (contents) => {
   if (!contents.includes("<h1>javan<span>.de</span></h1>")) {
     failures.push("index.html is not the arcade landing page");
   }
@@ -42,11 +42,22 @@ await check("index.html", (contents) => {
   if (!contents.includes('href="/favicon.ico"')) {
     failures.push("index.html is missing /favicon.ico link");
   }
-  if (!contents.includes('property="og:image"') || !contents.includes("https://javan.de/og-image.jpg")) {
-    failures.push("index.html is missing og:image → og-image.jpg");
+  if (!contents.includes('name="theme-color"') || !contents.includes('name="color-scheme"')) {
+    failures.push("index.html is missing theme-color / color-scheme chrome meta");
   }
-  if (!contents.includes('name="twitter:card"') || !contents.includes("summary_large_image")) {
-    failures.push("index.html is missing twitter:card=summary_large_image");
+  try {
+    const { existsSync } = await import("node:fs");
+    const { join: pathJoin } = await import("node:path");
+    const { pathToFileURL } = await import("node:url");
+    const validatePath = pathJoin(root, "vendor", "@javan", "web", "social", "validate.mjs");
+    if (!existsSync(validatePath)) {
+      failures.push("missing vendor/@javan/web social/validate.mjs — run npm run sync:javan-web");
+    } else {
+      const { assertShareHtml } = await import(pathToFileURL(validatePath).href);
+      assertShareHtml(contents, { imageUrl: "https://javan.de/og-image.jpg" });
+    }
+  } catch (error) {
+    failures.push(`assertShareHtml: ${error.message}`);
   }
 
   const metaCsp = contents.match(

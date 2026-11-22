@@ -1,7 +1,8 @@
 # javan.de
 
 Arcade landing page for `javan.de` / `www.javan.de`, plus the root sitemap
-index and sitemap submission automation.
+index. A weekly GitHub Action refreshes the sitemap files; submitting them
+in Google Search Console or Bing Webmaster Tools stays a manual UI step.
 
 ## How production traffic is split
 
@@ -41,8 +42,9 @@ login, and RSS offline.
   - `public/sitemap-main.xml` (root pages)
   - `public/sitemap-subdomains.xml` (subdomains and major sites)
   - `public/robots.txt` with sitemap reference
-- Runs a weekly + manual GitHub Action to refresh the sitemap files. Search
-  engines read `lastmod` from the published files.
+- Runs a weekly + manual GitHub Action to refresh the sitemap files (commit
+  only). Search engines read `lastmod` from the published files after you
+  submit `https://javan.de/sitemap.xml` once in Search Console / Bing.
 
 ### Dynamic data, not just a date stamp
 
@@ -95,9 +97,11 @@ Each is a plain array of URL strings — `lastmod` is resolved automatically
 at build time, so there's nothing else to edit. Then run `npm run build`
 and commit changes.
 
-## Automated maintenance (no human intervention required)
+## Automated maintenance
 
-This is a solo-maintained repo, so it's set up to keep itself current safely:
+This is a solo-maintained repo, so it's set up to keep itself current safely
+(Dependabot, CI, deploy, sitemap file refresh). Search Console / Bing sitemap
+submit stays manual — see the sitemap workflow log for paste links:
 
 - **`.github/dependabot.yml`** — opens weekly PRs to bump npm dependencies
   and GitHub Actions versions used in workflows.
@@ -113,7 +117,9 @@ This is a solo-maintained repo, so it's set up to keep itself current safely:
   review, since those are the ones most likely to contain breaking changes.
 - **`.github/workflows/sitemap-indexing.yml`** — weekly (Mondays) rebuilds
   the sitemaps from live data and commits changes back to `main` when a
-  file changed. Search engines read `lastmod` from the published files.
+  file changed. Job log ends with **manual** Search Console + Bing paste
+  links for `https://javan.de/sitemap.xml` (this workflow does not submit
+  or ping Google/Bing).
 - Repo-level `allow_auto_merge` and Dependabot security updates/alerts are
   enabled so vulnerable dependencies get patched automatically too.
 

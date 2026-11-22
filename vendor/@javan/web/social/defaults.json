@@ -1,0 +1,86 @@
+{
+  "ogWidth": 1200,
+  "ogHeight": 630,
+  "hosts": {
+    "home": {
+      "origin": "https://javan.de",
+      "siteName": "javan.de",
+      "chip": "home",
+      "domain": "javan.de",
+      "title": "Javan Rasokat",
+      "description": "Security engineer, researcher, trainer, and occasional builder of useful things.",
+      "accent": "#d4a574",
+      "imagePath": "/og-image.png"
+    },
+    "about": {
+      "origin": "https://about.javan.de",
+      "siteName": "about.javan.de",
+      "chip": "about",
+      "domain": "about.javan.de",
+      "title": "Javan Rasokat – Security Researcher & Security Trainer",
+      "description": "Senior Application Security Specialist, doctoral security researcher, and security trainer in Stuttgart, Germany.",
+      "accent": "#d4a574",
+      "imagePath": "/og-image.png"
+    },
+    "blog": {
+      "origin": "https://blog.javan.de",
+      "siteName": "blog.javan.de",
+      "chip": "blog",
+      "domain": "blog.javan.de",
+      "title": "blog.javan.de",
+      "description": "Writing on application security, secure-by-design engineering, and AI-era software risk.",
+      "accent": "#d4a574",
+      "imagePath": "/og-image.png"
+    },
+    "projects": {
+      "origin": "https://projects.javan.de",
+      "siteName": "projects.javan.de",
+      "chip": "projects",
+      "domain": "projects.javan.de",
+      "title": "Projects — Javan Rasokat",
+      "description": "Selected projects, tools, and experiments by Javan Rasokat.",
+      "accent": "#d4a574",
+      "imagePath": "/og-image.png"
+    },
+    "training": {
+      "origin": "https://training.javan.de",
+      "siteName": "training.javan.de",
+      "chip": "training",
+      "domain": "training.javan.de",
+      "title": "Security Trainer in Stuttgart — Hands-on AppSec & Secure Coding",
+      "description": "Hands-on application security trainings and workshops in German and English.",
+      "accent": "#d4a574",
+      "imagePath": "/catalog/assets/og-image.png"
+    },
+    "imprint": {
+      "origin": "https://imprint.javan.de",
+      "siteName": "imprint.javan.de",
+      "chip": "imprint",
+      "domain": "imprint.javan.de",
+      "title": "Imprint — Javan Rasokat",
+      "description": "Legal notice (Impressum) for *.javan.de sites operated by Javan Rasokat.",
+      "accent": "#d4a574",
+      "imagePath": "/og-image.png"
+    },
+    "newsletter": {
+      "origin": "https://unagentic.javan.de",
+      "siteName": "[un]agentic",
+      "chip": "newsletter",
+      "domain": "unagentic.javan.de",
+      "title": "[un]agentic — A security engineering newsletter",
+      "description": "A security engineering newsletter by Javan Rasokat.",
+      "accent": "#d4a574",
+      "imagePath": "/og-image.png"
+    },
+    "secure-coding": {
+      "origin": "https://secure-coding.javan.de",
+      "siteName": "Secure Coding Schulung",
+      "chip": "training",
+      "domain": "secure-coding.javan.de",
+      "title": "Secure Coding Schulung",
+      "description": "Übungsaufgaben zu den OWASP Top 10 — Secure Coding Schulung.",
+      "accent": "#e0b07c",
+      "imagePath": "/og.png"
+    }
+  }
+}
