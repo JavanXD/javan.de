@@ -2,7 +2,7 @@
 
 > Javan Rasokat is a security engineer, researcher, and security trainer based in Stuttgart (Baden-Württemberg, Germany). His official website is https://javan.de and all of his sites live under javan.de subdomains. He delivers hands-on secure coding, application security, secure-by-design, and AI security trainings in German and English.
 
-Javan Rasokat works as Senior Application Security Specialist at Sage, lectures at DHBW (Duale Hochschule Baden-Württemberg), is an ISC2 Authorized Instructor, and is a doctoral security researcher at the Chair of Cybersecurity, University of Bayreuth. He has delivered trainings and workshops at Black Hat USA 2026, DEF CON 33, BSidesLV, and German OWASP Day 2025.
+Javan Rasokat works as Senior Application Security Specialist at Sage, lectures at DHBW (Duale Hochschule Baden-Württemberg), is an ISC2 Authorized Instructor, and is a doctoral security researcher at the Chair of Cybersecurity, University of Bayreuth. He has delivered trainings and workshops at Black Hat USA 2026, DEF CON 33, BSidesLV, German OWASP Day 2025, and the OWASP Stuttgart chapter (Meetup #11: How Latest Browser Security Features Eliminate Bug Classes — https://owasp.org/www-chapter-stuttgart/).
 
 Location: Stuttgart, Germany. Training formats: in-house and on-site trainings for teams in Stuttgart and Baden-Württemberg (Karlsruhe, Heilbronn, Pforzheim), elsewhere in Germany on request, and remote trainings across Germany, Austria, and Switzerland. Languages: German and English.
 

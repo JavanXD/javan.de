@@ -18,6 +18,7 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - [x] **Public contact address:** `javan@rasok.at` as readable plain text on javan.de (footer, JSON-LD `email`, `llms.txt`), about.javan.de, and the training catalog; catalog form stays for inquiries. Cloudflare **Email Obfuscation off** on `javan.de` and `rasok.at` zones. *(Updated 2026-11-22.)*
 - [x] **Go / no-go** on the fix plan. *(Go, 2026-11-22. javan.de: title/description, shared Person `https://javan.de/#person`, Training → `/catalog/` + German card, `llms.txt`, `/about` + `/about/` 301 → `about.javan.de` in `_redirects` and Bulk Redirects.)*
 - [ ] **You:** Google Business Profile as a service-area business (Stuttgart region, address hidden), category "Trainer" / "Computer security service", website `https://javan.de/`.
+- [x] **Cloudflare crawler audit (2026-11-22).** Zone `javan.de`: Bot Fight Mode Off (`fight_mode=false`); AI Search/Agent/Training/User = Allow (`ai_*=disabled` = not blocking); managed robots.txt Off; Email Address Obfuscation **Off**. Same AI Allow on `asec.app` / `javan.eu`. `rasok.at` Email Obfuscation Off. Site `robots.txt` explicitly Allows GPTBot, Claude, Perplexity, Google-Extended.
 - [ ] **You:** Search Console URL inspection → request indexing for `https://javan.de/`, `https://training.javan.de/catalog/`, `https://training.javan.de/catalog/de/`; import the property into Bing Webmaster Tools.
 
 ## Cloudflare cost — WP scan / request-pool hygiene (Javan account)
