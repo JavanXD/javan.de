@@ -8,6 +8,7 @@
   },
   "scripts": {
     "generate:sitemap": "node scripts/generate-sitemaps.mjs",
+    "sync:javan-web": "node scripts/sync-javan-web.mjs",
     "build:assets": "node scripts/build-assets.mjs",
     "build": "npm run generate:sitemap && npm run build:assets",
     "validate": "node scripts/validate-build.mjs",

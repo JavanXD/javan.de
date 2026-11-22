@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { copyFile, mkdir, readdir, unlink, writeFile } from "node:fs/promises";
+import { copyFile, cp, mkdir, readdir, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { staticRedirectsFile } from "./quota-free-redirects.mjs";
@@ -8,6 +8,7 @@ import { staticRedirectsFile } from "./quota-free-redirects.mjs";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const dist = join(root, "dist");
 const publicDir = join(root, "public");
+const vendorWeb = join(root, "vendor", "@javan", "web");
 
 await mkdir(dist, { recursive: true });
 
@@ -24,6 +25,10 @@ for (const name of await readdir(publicDir)) {
   if (name.startsWith(".")) continue;
   await copyFile(join(publicDir, name), join(dist, name));
 }
+
+// Shared @javan/web footer CSS + assets (pinned vendor copy).
+await cp(join(vendorWeb, "styles"), join(dist, "styles"), { recursive: true });
+await cp(join(vendorWeb, "assets"), join(dist, "assets"), { recursive: true });
 
 await writeFile(join(dist, "_redirects"), staticRedirectsFile());
 

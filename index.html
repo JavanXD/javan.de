@@ -7,7 +7,7 @@
   <meta name="author" content="Javan Rasokat">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'sha256-Zb5IpGiTcblU0gUP3T1WXqE4xS5UXuyeZWAVxkMxE2s=' 'sha256-w2fDWtOcWYmEKuW8YK6SGiFLAbCTiW9fwEZKeoyHUfA=' 'sha256-yPD0GDKJAfgspOOjQKFoACRbCyB4fHLMN62i//dc3/o='; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self' 'sha256-7QM1vD7PiOL6uU+Kqi62Fk12Qq6QQNemR7Z/QU+2oQA=' 'sha256-w2fDWtOcWYmEKuW8YK6SGiFLAbCTiW9fwEZKeoyHUfA=' 'sha256-yPD0GDKJAfgspOOjQKFoACRbCyB4fHLMN62i//dc3/o='; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="format-detection" content="telephone=no, email=no, address=no">
   
   <title>Javan Rasokat | javan.de</title>
@@ -49,6 +49,7 @@
   <link rel="icon" href="/blinky.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="/favicon-192.png">
+  <link rel="stylesheet" href="/styles/javan-footer.css">
   <style>
     :root {
       color-scheme: dark;
@@ -242,35 +243,6 @@
       font-size: 18px;
     }
 
-    footer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 10px 24px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-
-    footer a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      color: var(--accent);
-    }
-
-    footer .footer-privacy {
-      flex: 1 0 100%;
-      margin: 0;
-      letter-spacing: .02em;
-      text-transform: none;
-    }
-
     @media (hover: hover) and (pointer: fine) {
       nav a:hover {
         border-color: var(--accent);
@@ -437,12 +409,27 @@
       </nav>
     </div>
 
-    <footer>
-      <p class="footer-privacy">This page intentionally uses no trackers or analytics.</p>
-      <span>Javan Rasokat</span>
-      <span>Stuttgart, Germany</span>
-      <a href="mailto:javan@rasok.at" aria-label="Email javan@rasok.at"><span aria-hidden="true">✉</span> javan@rasok.at</a>
-      <a href="https://imprint.javan.de/" rel="noopener noreferrer">Imprint</a>
+    <footer class="javan-footer">
+      <p class="javan-footer__privacy">This page intentionally uses no trackers or analytics.</p>
+      <nav class="javan-footer__sites" aria-label="javan.de sites">
+        <span aria-hidden="true">[</span>
+        <a href="https://about.javan.de/">about</a>
+        <span class="javan-footer__sites-sep" aria-hidden="true">|</span>
+        <a href="https://blog.javan.de/">blog</a>
+        <span class="javan-footer__sites-sep" aria-hidden="true">|</span>
+        <a href="https://newsletter.javan.de/">newsletter</a>
+        <span class="javan-footer__sites-sep" aria-hidden="true">|</span>
+        <a href="https://projects.javan.de/">projects</a>
+        <span class="javan-footer__sites-sep" aria-hidden="true">|</span>
+        <a href="https://training.javan.de/catalog/">training</a>
+        <span aria-hidden="true">].</span><a href="https://javan.de/" aria-current="page">javan.de</a>
+      </nav>
+      <div class="javan-footer__identity">
+        <span>Javan Rasokat</span>
+        <span class="javan-footer__place">Made in Stuttgart, Germany <img class="javan-footer__flag" src="/assets/flag-de.svg" width="15" height="9" alt=""></span>
+        <a class="javan-footer__mail" href="mailto:javan@rasok.at" aria-label="Email javan@rasok.at"><span aria-hidden="true">✉</span> javan@rasok.at</a>
+        <a href="https://imprint.javan.de/" rel="noopener noreferrer">Imprint</a>
+      </div>
     </footer>
   </main>
 </body>
