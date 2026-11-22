@@ -103,6 +103,8 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-size: 0.65rem;
+    container-type: inline-size;
+    container-name: javan-footer-identity;
   }
 
   .javan-footer__place {
@@ -129,7 +131,10 @@
     letter-spacing: 0.02em;
   }
 
-  .javan-footer__imprint {
-    margin-left: auto;
+  /* Right-align Imprint only when the identity row has room (no forced wrap). */
+  @container javan-footer-identity (min-width: 42rem) {
+    .javan-footer__imprint {
+      margin-left: auto;
+    }
   }
 }

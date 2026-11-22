@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 9" width="15" height="9" aria-hidden="true" focusable="false">
-  <!-- Flat 15×9 glyph matching flag-de.svg proportions -->
-  <rect width="15" height="9" fill="#1c1c1c"/>
-  <path fill="#d0d0d0" d="M0 0h15L7.5 4.8 0 0z"/>
-  <path fill="#a8a8a8" d="M0 0v9h15V0L7.5 4.8 0 0z"/>
-  <path fill="#1c1c1c" fill-opacity=".4" d="M0 9 7.5 4.8 15 9H0z"/>
+  <!-- Monochrome 15×9 glyph — same box as flag-de.svg, mostly white -->
+  <rect width="15" height="9" fill="#111"/>
+  <path fill="#f2f2f2" d="M0 0v9h15V0H0zm0 1.15 7.5 4.6L15 1.15V8.2H0V1.15z"/>
+  <path fill="#f2f2f2" d="M0 0h15L7.5 4.55 0 0z"/>
 </svg>
