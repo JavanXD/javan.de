@@ -111,26 +111,25 @@
     gap: 0.4em;
   }
 
-  .javan-footer__flag {
+  .javan-footer__flag,
+  .javan-footer__mail-icon {
     display: inline-block;
     width: 15px;
     height: 9px;
     flex: 0 0 auto;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    vertical-align: middle;
   }
 
   .javan-footer a.javan-footer__mail {
     display: inline-flex;
     align-items: center;
-    gap: 0.35em;
+    gap: 0.4em;
     text-transform: none;
     letter-spacing: 0.02em;
   }
 
-  .javan-footer__mail-icon {
-    display: block;
-    width: 0.95em;
-    height: 0.95em;
-    flex: 0 0 auto;
+  .javan-footer__imprint {
+    margin-left: auto;
   }
 }
