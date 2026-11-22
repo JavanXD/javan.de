@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { BLOG_FEED, BLOG_ORIGIN, SHORT_LINKS } from "../src/routing.js";
-import { bulkRedirectItems, IMPRINT, staticRedirectsFile } from "../scripts/quota-free-redirects.mjs";
+import { ABOUT, bulkRedirectItems, IMPRINT, staticRedirectsFile } from "../scripts/quota-free-redirects.mjs";
 
 test("bulk list covers apex article, feed, short link, and newsletter homepage", () => {
   const items = bulkRedirectItems();
@@ -40,6 +40,10 @@ test("bulk list covers apex article, feed, short link, and newsletter homepage",
   );
   assert.equal(imprint.redirect.target_url, IMPRINT);
   assert.equal(imprint.redirect.status_code, 301);
+
+  const about = items.find((item) => item.redirect.source_url === "https://javan.de/about/");
+  assert.equal(about.redirect.target_url, ABOUT);
+  assert.equal(about.redirect.status_code, 301);
 });
 
 test("static _redirects file is path-only for this Worker", () => {
@@ -47,5 +51,6 @@ test("static _redirects file is path-only for this Worker", () => {
   assert.match(file, /^\/the-future-security-engineer /m);
   assert.match(file, /\/zoom https:\/\/us05web\.zoom\.us\/.* 301/m);
   assert.match(file, /^\/imprint\/ https:\/\/imprint\.javan\.de\/ 301/m);
+  assert.match(file, /^\/about\/ https:\/\/about\.javan\.de\/ 301/m);
   assert.doesNotMatch(file, /newsletter\.javan\.de/);
 });

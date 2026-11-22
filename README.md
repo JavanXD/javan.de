@@ -11,8 +11,9 @@ routes** (`javan.de/*`, `www.javan.de/*`) so it runs in front of that origin.
 
 | Path | What happens |
 | --- | --- |
-| `/`, landing assets, sitemaps, `robots.txt` | Arcade **Static Assets** (`_headers`). Worker does not run (0 quota). |
+| `/`, landing assets, sitemaps, `robots.txt`, `llms.txt` | Arcade **Static Assets** (`_headers`). Worker does not run (0 quota). |
 | Known article slugs, `/feed/`, `/zoom` etc. | **Bulk Redirects** + `_redirects` (0 Worker quota). Worker `decide()` is fallback. |
+| `/about`, `/about/` | **Bulk Redirects** + `_redirects` 301 → `https://about.javan.de/` |
 | `www.javan.de` | Zone **Single Redirect** → apex (path+query). Worker fallback if the rule misses. |
 | `/wp-login.php`, `/wp-admin/`, `/wp-*` | Worker passthrough to WordPress |
 | Unknown permalinks | Worker passthrough so new drafts still work |

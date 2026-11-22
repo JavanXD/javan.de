@@ -9,6 +9,16 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - **Later:** Search Console — submit apex sitemap. Refresh Facebook Sharing Debugger / WhatsApp cache after OG change. Dependabot merges (handled separately); WordPress privacy / publish webhook for blog sync stays in `blog.javan.de`. Cross-host SEO/favicon follow-ups from 2026-08-29 audit (other repos — see below).
 - **Ops:** Always land on `main`. No feature branches or PRs for this repo except Dependabot. Never attach this Worker as a Cloudflare **custom domain** on apex/www. Cloudflare spend: keep this zone **Free**; do not buy Pro for extra Single Redirects (**Bulk Redirects** / zone rules first; Worker only as slot workaround). Umbrella 2026-09-01: **no Workers Paid**; **quota-free is better** (this checklist P1). Cross-account playbook: `~/Projects/rasok.at/docs/CLOUDFLARE-BASELINE.md`.
 
+## Needs your decision
+
+- [ ] **Shared design for all `*.javan.de` sites (2026-11-22):** how shared CSS variables, base styles, footer, logo, and profile photo reach the sites: shared source repo with a pinned copy built into each site (same origin) · one runtime stylesheet on `static.javan.de` · color and font variables only. Follow-up: which current site look is the reference.
+- [x] **Trainer search visibility (2026-11-22):** Stuttgart · Frankfurt/Rhein-Main · Karlsruhe · Heilbronn · Pforzheim · Germany-wide/DACH remote. *(Picked 2026-11-22; München left out.)*
+- [x] **German trainer page location:** `training.javan.de/catalog/de/`, generated from the catalog source of truth. *(Recommended default, 2026-11-22; live.)*
+- [x] **Public contact address on about.javan.de:** catalog contact form for training inquiries; `javan@rasok.at` stays as the personal contact. *(Recommended default, 2026-11-22.)*
+- [x] **Go / no-go** on the fix plan. *(Go, 2026-11-22. javan.de: title/description, shared Person `https://javan.de/#person`, Training → `/catalog/` + German card, `llms.txt`, `/about` + `/about/` 301 → `about.javan.de` in `_redirects` and Bulk Redirects.)*
+- [ ] **You:** Google Business Profile as a service-area business (Stuttgart region, address hidden), category "Trainer" / "Computer security service", website `https://javan.de/`.
+- [ ] **You:** Search Console URL inspection → request indexing for `https://javan.de/`, `https://training.javan.de/catalog/`, `https://training.javan.de/catalog/de/`; import the property into Bing Webmaster Tools.
+
 ## Cloudflare cost — WP scan / request-pool hygiene (Javan account)
 
 **Why:** Every **Worker invocation** counts against the **account-wide** Free 100k requests/day (shared with blog, about, unagentic, leftover labs, Ferienhaus). That is **not** origin bandwidth. Scanners probing `/wp-login.php`, `/wp-admin/`, and invented permalinks all go `decide` → `origin` → `fetch(request)` **and still count** even if Cache API later avoids a second WordPress hit. **Static Assets are free and unlimited only when the Worker does not run.** Landing files under `dist/` skip the Worker. Unknown permalinks and `/wp-*` still invoke it. Do **not** buy Workers Paid on Javan to absorb scans; fix routing / edge instead.

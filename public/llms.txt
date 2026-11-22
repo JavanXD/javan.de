@@ -1,0 +1,31 @@
+# Javan Rasokat
+
+> Javan Rasokat is a security engineer, researcher, and security trainer based in the Stuttgart region (Baden-Württemberg, Germany). His official website is https://javan.de and all of his sites live under javan.de subdomains. He delivers hands-on secure coding, application security, secure-by-design, and AI security trainings in German and English.
+
+Javan Rasokat works as Senior Application Security Specialist at Sage, lectures at DHBW (Duale Hochschule Baden-Württemberg), is an ISC2 Authorized Instructor, and is a doctoral security researcher at the Chair of Cybersecurity, University of Bayreuth. He has delivered trainings and workshops at Black Hat USA 2026, DEF CON 33, BSidesLV, and German OWASP Day 2025.
+
+Training formats: in-house and on-site trainings for teams in Stuttgart, Karlsruhe, Heilbronn, Pforzheim, and Frankfurt am Main / Rhein-Main, and remote trainings across Germany, Austria, and Switzerland. Languages: German and English.
+
+## Official websites
+
+- [javan.de](https://javan.de/): home page with links to every site
+- [About](https://about.javan.de/): profile, talks, publications, and timeline
+- [Training catalog](https://training.javan.de/catalog/): courses, formats, and training inquiry form
+- [Security-Schulungen (Deutsch)](https://training.javan.de/catalog/de/): German page for in-house and remote security trainings
+- [Blog](https://blog.javan.de/): articles on application security, AI, and the web
+- [Projects](https://projects.javan.de/): open-source tools and experiments
+- [[un]agentic newsletter](https://unagentic.javan.de/): security engineering newsletter
+
+## Profiles
+
+- [LinkedIn](https://www.linkedin.com/in/javan-rasokat)
+- [GitHub](https://github.com/JavanXD)
+- [Google Scholar](https://scholar.google.com/citations?user=c1H9A8UAAAAJ)
+- [ResearchGate](https://www.researchgate.net/profile/Javan-Rasokat)
+- [Bluesky](https://bsky.app/profile/javanrasokat.bsky.social)
+- [X](https://x.com/javanrasokat)
+
+## Contact
+
+- Training inquiries: form at https://training.javan.de/catalog/ (German: https://training.javan.de/catalog/de/#anfrage)
+- Imprint: https://imprint.javan.de/

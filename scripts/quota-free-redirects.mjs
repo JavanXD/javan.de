@@ -13,6 +13,7 @@ export const APEX = "https://javan.de";
 export const WWW = "https://www.javan.de";
 export const UNAGENTIC = "https://unagentic.javan.de";
 export const IMPRINT = "https://imprint.javan.de/";
+export const ABOUT = "https://about.javan.de/";
 
 const FEED_PATHS = [
   "/feed",
@@ -116,10 +117,12 @@ export function bulkRedirectItems() {
     add(map, `${src}/`, `${UNAGENTIC}/`, { preserve_query_string: true });
   }
 
-  // Shared Impressum (WordPress /imprint → imprint.javan.de).
+  // Shared Impressum (WordPress /imprint → imprint.javan.de) and profile (WordPress /about → about.javan.de).
   for (const host of [APEX, WWW]) {
     add(map, `${host}/imprint`, IMPRINT, { preserve_query_string: true });
     add(map, `${host}/imprint/`, IMPRINT, { preserve_query_string: true });
+    add(map, `${host}/about`, ABOUT, { preserve_query_string: true });
+    add(map, `${host}/about/`, ABOUT, { preserve_query_string: true });
   }
 
   return [...map.values()];
@@ -144,5 +147,7 @@ export function staticRedirectsFile() {
   }
   lines.push(`/imprint ${IMPRINT} 301`);
   lines.push(`/imprint/ ${IMPRINT} 301`);
+  lines.push(`/about ${ABOUT} 301`);
+  lines.push(`/about/ ${ABOUT} 301`);
   return `${lines.join("\n")}\n`;
 }
