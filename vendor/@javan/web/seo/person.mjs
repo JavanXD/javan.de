@@ -45,8 +45,9 @@ export function personNode(mode = "full") {
     if (Array.isArray(node.image)) node.image = node.image[0];
     return node;
   }
-  const { "@context": _ctx, ...rest } = personFull;
-  return structuredClone(rest);
+  const rest = { ...personFull };
+  delete rest["@context"];
+  return JSON.parse(JSON.stringify(rest));
 }
 
 /**
