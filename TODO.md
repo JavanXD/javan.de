@@ -27,7 +27,8 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - [ ] **You:** Directories still showing `asec.app` + Dorfäckerweg as the public software shop (e.g. meinestadt) — set website to `https://javan.de/` where claimable.
 - [x] **Cloudflare crawler audit (2026-11-22).** Zone `javan.de`: Bot Fight Mode Off (`fight_mode=false`); AI Search/Agent/Training/User = Allow (`ai_*=disabled` = not blocking); managed robots.txt Off; Email Address Obfuscation **Off**. Same AI Allow on `asec.app` / `javan.eu`. `rasok.at` Email Obfuscation Off. Site `robots.txt` explicitly Allows GPTBot, Claude, Perplexity, Google-Extended.
 - [ ] **You:** Search Console URL inspection → request indexing for `https://javan.de/`, `https://training.javan.de/catalog/`, `https://training.javan.de/catalog/de/`, `https://imprint.javan.de/`; import the property into Bing Webmaster Tools.
-- [x] **HoneyPi / trainer entity split — code side (2026-11-22).** Person `sameAs` includes imprint.javan.de (not honey-pi.de); about + projects model HoneyPi as `SoftwareApplication` with `creator` → `#person`; imprint Geltungsbereich; WP paste checklist ready.
+- [x] **HoneyPi / trainer entity split — code side (2026-11-22).** Person `sameAs` includes imprint.javan.de (not honey-pi.de); about + projects model HoneyPi as `SoftwareApplication` with `creator` → `#person`; imprint Geltungsbereich; WP paste checklist ready. Live smoke OK on imprint / about / javan.de / projects honeypi page. HoneyPi WP still pre-checklist until you paste.
+- [ ] **Follow-up:** After HoneyPi WP + GBP + GSC, re-check AI overview / “Javan Rasokat” lead facts (trainer + Stuttgart vs Dorfäckerweg from HoneyPi).
 
 ## Cloudflare cost — WP scan / request-pool hygiene (Javan account)
 
