@@ -7,7 +7,9 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const candidates = [
   process.env.JAVAN_WEB_ROOT,
+  join(root, "..", "javan-personal-branding", "02-library", "web"),
   join(root, "..", "javan-personal-branding", "brand-system", "web"),
+  join(process.env.HOME || "", "Projects", "javan-personal-branding", "02-library", "web"),
   join(process.env.HOME || "", "Projects", "javan-personal-branding", "brand-system", "web"),
 ].filter(Boolean);
 
