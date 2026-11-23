@@ -161,7 +161,7 @@ No `asec.app` / `*.asec.app` repo. **Schulung** lives at https://secure-coding.j
 - [x] Fix Firefox favicon: CSP `img-src 'self'` (Firefox enforces CSP on favicons; Chrome often does not) + `/favicon.ico` + absolute icon `href`s.
 - [x] Fix stale `public/sitemap-main.xml` listing `https://www.javan.de/` → apex only.
 - [x] Drop retired `sitemap-projects.xml` child; move sudoku into `subdomainPages`; apex article paths owned by blog sitemap. *(2026-08-30)*
-- [x] Optional: `projects.javan.de/sitemap.xml` still lists stale apex article paths (`/pihole-…`, `/condition-injection/`) — fix in the projects repo, not here. *(2026-11-23: portfolio + repo homepages → `blog.javan.de/…`; regenerates out of projects sitemap because searchDomains stays `javan.de`.)*
+- [x] Optional: `projects.javan.de/sitemap.xml` still lists stale apex article paths (`/pihole-…`, `/condition-injection/`) — fix in the projects repo, not here. *(2026-11-23: portfolio + repo homepages → `blog.javan.de/…`; sitemap now lists the live blog URLs.)*
 - [x] Confirm live smoke: homepage, favicon, sitemap on apex; www 301 to apex. *(wrangler deploy + `npm run smoke` passed 2026-08-29)*
 - [x] Homepage `<link rel="alternate" type="application/rss+xml">` → `https://blog.javan.de/feed.xml` for feed autodiscovery. *(was missing after cutover; old `/feed/` URLs still 301 correctly)*
 - [x] `og:image` / `twitter:image` → `https://javan.de/favicon-192.png` (summary card; square mark). *(deployed; superseded by large card below)*
