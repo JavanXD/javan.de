@@ -114,7 +114,8 @@
   }
 
   .javan-footer__flag,
-  .javan-footer__mail-icon {
+  .javan-footer__mail-icon,
+  .javan-footer__rss-icon {
     display: inline-block;
     width: 15px;
     height: 9px;
@@ -123,7 +124,8 @@
     vertical-align: middle;
   }
 
-  .javan-footer a.javan-footer__mail {
+  .javan-footer a.javan-footer__mail,
+  .javan-footer a.javan-footer__rss {
     display: inline-flex;
     align-items: center;
     gap: 0.4em;

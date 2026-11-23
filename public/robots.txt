@@ -46,6 +46,3 @@ User-agent: meta-externalagent
 Allow: /
 
 Sitemap: https://javan.de/sitemap.xml
-
-# Sitemap location
-Sitemap: https://javan.de/sitemap.xml

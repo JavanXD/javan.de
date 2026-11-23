@@ -15,6 +15,7 @@
   <link rel="alternate" type="application/rss+xml" title="[blog].javan.de | Security Engineering" href="https://blog.javan.de/feed.xml">
     <meta name="theme-color" content="#050505">
     <meta name="color-scheme" content="dark">
+    <!-- @javan/web share-meta -->
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
     <meta property="og:site_name" content="Javan Rasokat">
@@ -32,6 +33,7 @@
     <meta name="twitter:description" content="Security engineer, researcher, trainer, and occasional builder of useful things.">
     <meta name="twitter:image" content="https://javan.de/og-image.jpg">
     <meta name="twitter:image:alt" content="javan.de — Blinky arcade mark with Javan Rasokat tagline">
+    <!-- /@javan/web share-meta -->
 
   <!-- Performance: DNS Prefetch & Preconnect -->
   <link rel="dns-prefetch" href="//about.javan.de">
@@ -304,43 +306,46 @@
         "about": { "@id": "https://javan.de/#person" }
       },
       {
-        "@type": "Person",
-        "@id": "https://javan.de/#person",
-        "name": "Javan Rasokat",
-        "alternateName": "javanrasokat",
-        "givenName": "Javan",
-        "familyName": "Rasokat",
-        "url": "https://javan.de/",
-        "image": "https://about.javan.de/javan-800.png",
-        "jobTitle": ["Security Trainer", "Senior Application Security Specialist"],
-        "description": "Security engineer, researcher, trainer, and occasional builder of useful things.",
-        "homeLocation": {
-          "@type": "Place",
-          "name": "Stuttgart, Baden-Württemberg, Germany",
-          "address": { "@type": "PostalAddress", "addressLocality": "Stuttgart", "addressRegion": "Baden-Württemberg", "addressCountry": "DE" }
-        },
-        "email": "javan@rasok.at",
-        "knowsLanguage": ["de", "en"],
-        "knowsAbout": ["Application security", "Secure coding", "Secure by design", "AI security", "Web security", "Security training"],
-        "hasOccupation": {
-          "@type": "Occupation",
-          "name": "Security Trainer",
-          "occupationLocation": { "@type": "City", "name": "Stuttgart" }
-        },
-        "worksFor": { "@type": "Organization", "name": "Sage", "url": "https://www.sage.com" },
-        "sameAs": [
-          "https://about.javan.de/",
-          "https://blog.javan.de/",
-          "https://training.javan.de/catalog/",
-          "https://projects.javan.de/",
-          "https://imprint.javan.de/",
-          "https://www.linkedin.com/in/javan-rasokat",
-          "https://github.com/JavanXD",
-          "https://x.com/javanrasokat",
-          "https://bsky.app/profile/javanrasokat.bsky.social",
-          "https://scholar.google.com/citations?user=c1H9A8UAAAAJ",
-          "https://www.researchgate.net/profile/Javan-Rasokat"
-        ]
+              "@type": "Person",
+              "@id": "https://javan.de/#person",
+              "name": "Javan Rasokat",
+              "alternateName": "javanrasokat",
+              "givenName": "Javan",
+              "familyName": "Rasokat",
+              "jobTitle": [
+                      "Security Trainer",
+                      "Senior Application Security Specialist"
+              ],
+              "url": "https://javan.de/",
+              "email": "javan@rasok.at",
+              "image": "https://about.javan.de/javan-800.png",
+              "homeLocation": {
+                      "@type": "Place",
+                      "name": "Stuttgart, Baden-Württemberg, Germany",
+                      "address": {
+                              "@type": "PostalAddress",
+                              "addressLocality": "Stuttgart",
+                              "addressRegion": "Baden-Württemberg",
+                              "addressCountry": "DE"
+                      }
+              },
+              "sameAs": [
+                      "https://about.javan.de/",
+                      "https://blog.javan.de/",
+                      "https://training.javan.de/catalog/",
+                      "https://projects.javan.de/",
+                      "https://imprint.javan.de/",
+                      "https://www.linkedin.com/in/javan-rasokat",
+                      "https://x.com/javanrasokat",
+                      "https://github.com/JavanXD",
+                      "https://bsky.app/profile/javanrasokat.bsky.social",
+                      "https://scholar.google.com/citations?user=c1H9A8UAAAAJ",
+                      "https://www.researchgate.net/profile/Javan-Rasokat"
+              ],
+              "knowsLanguage": [
+                      "de",
+                      "en"
+              ]
       }
     ]
   }
@@ -426,7 +431,8 @@
         <span>Javan Rasokat</span>
         <span class="javan-footer__place">Made in BW, Germany <img class="javan-footer__flag" src="/assets/flag-de.svg" width="15" height="9" alt=""></span>
         <a class="javan-footer__mail" href="mailto:javan@rasok.at" aria-label="Email javan@rasok.at"><img class="javan-footer__mail-icon" src="/assets/mail.svg" width="15" height="9" alt=""> javan@rasok.at</a>
-        <a class="javan-footer__imprint" href="https://imprint.javan.de/" rel="noopener noreferrer">Imprint</a>
+    <a class="javan-footer__rss" href="https://blog.javan.de/feed.xml" type="application/rss+xml" aria-label="Blog RSS feed" rel="noopener noreferrer"><img class="javan-footer__rss-icon" src="/assets/rss.svg" width="15" height="9" alt=""></a>
+    <a class="javan-footer__imprint" href="https://imprint.javan.de/" rel="noopener noreferrer">Imprint</a>
       </div>
     </footer>
   </main>

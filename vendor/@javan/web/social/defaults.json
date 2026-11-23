@@ -4,13 +4,13 @@
   "hosts": {
     "home": {
       "origin": "https://javan.de",
-      "siteName": "javan.de",
+      "siteName": "Javan Rasokat",
       "chip": "home",
       "domain": "javan.de",
-      "title": "Javan Rasokat",
+      "title": "Javan Rasokat | javan.de",
       "description": "Security engineer, researcher, trainer, and occasional builder of useful things.",
       "accent": "#d4a574",
-      "imagePath": "/og-image.png"
+      "imagePath": "/og-image.jpg"
     },
     "about": {
       "origin": "https://about.javan.de",
@@ -34,11 +34,11 @@
     },
     "projects": {
       "origin": "https://projects.javan.de",
-      "siteName": "projects.javan.de",
+      "siteName": "Projects by Javan Rasokat",
       "chip": "projects",
       "domain": "projects.javan.de",
-      "title": "Projects — Javan Rasokat",
-      "description": "Selected projects, tools, and experiments by Javan Rasokat.",
+      "title": "Javan Rasokat — Open Source Projects & Security Tools",
+      "description": "Explore Javan Rasokat’s portfolio of open-source repositories, security research, smart-home automations, developer tools, workshops, web experiments, and public websites since 2010.",
       "accent": "#d4a574",
       "imagePath": "/og-image.png"
     },

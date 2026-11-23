@@ -44,11 +44,16 @@ export function shareMetaTags(input = {}) {
   const imageUrl =
     input.imageUrl ??
     (input.hostKey ? absoluteImageUrl(input.hostKey, input.imagePath) : null) ??
-    "https://javan.de/og-image.png";
+    "https://javan.de/og-image.jpg";
   const imageAlt = input.imageAlt ?? title;
   const type = input.type ?? "website";
   const locale = input.locale ?? "de_DE";
-  const imageType = input.imageType ?? "image/png";
+  const inferredType = /\.jpe?g(\?|$)/i.test(imageUrl)
+    ? "image/jpeg"
+    : /\.webp(\?|$)/i.test(imageUrl)
+      ? "image/webp"
+      : "image/png";
+  const imageType = input.imageType ?? inferredType;
   const includeDimensions = input.includeDimensions !== false;
   const imageWidth = input.imageWidth ?? OG_WIDTH;
   const imageHeight = input.imageHeight ?? OG_HEIGHT;
