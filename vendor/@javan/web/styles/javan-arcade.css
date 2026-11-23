@@ -1,0 +1,195 @@
+/*
+   * Arcade backdrop — theme hooks via --arcade-* (fallbacks keep dark Wave 3 look).
+   * Do not set :root defaults here; host aliases / theme sheets own the values.
+   */
+  .atmosphere {
+    position: fixed;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        70% 55% at 94% -8%,
+        var(--arcade-blinky-glow, rgba(246, 99, 99, 0.15)),
+        transparent 58%
+      ),
+      radial-gradient(
+        50% 40% at 0% 88%,
+        var(--arcade-pac-glow, rgba(255, 212, 0, 0.06)),
+        transparent 64%
+      ),
+      linear-gradient(
+        180deg,
+        var(--arcade-canvas-a, #050505) 0%,
+        var(--arcade-canvas-b, #090909) 38%,
+        var(--arcade-canvas-c, #050505) 100%
+      );
+  }
+
+  .maze,
+  .dots,
+  .grain,
+  .glow {
+    position: absolute;
+  }
+
+  .maze {
+    inset: -2px;
+    opacity: 0.62;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent 0 47px,
+        var(--arcade-maze, rgba(33, 33, 222, 0.22)) 47px 48px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent 0 47px,
+        var(--arcade-maze, rgba(33, 33, 222, 0.22)) 47px 48px
+      );
+    mask-image: radial-gradient(ellipse 85% 68% at 94% 2%, #000 0%, transparent 73%);
+  }
+
+  .dots {
+    inset: 0;
+    opacity: 0.4;
+    background-image: radial-gradient(
+      circle,
+      var(--arcade-pellet, var(--yellow, var(--javan-yellow))) 1.1px,
+      transparent 1.45px
+    );
+    background-position: 12px 12px;
+    background-size: 24px 24px;
+    mask-image: radial-gradient(ellipse 72% 56% at 92% 5%, #000 0%, transparent 68%);
+    animation: javan-dots-drift 22s linear infinite;
+  }
+
+  .grain {
+    inset: 0;
+    opacity: var(--arcade-grain, 0.075);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: soft-light;
+  }
+
+  .glow {
+    border-radius: 50%;
+    filter: blur(16px);
+    animation: javan-glow-drift 18s ease-in-out infinite alternate;
+  }
+
+  .glow-red,
+  .glow--blinky {
+    top: -22vmax;
+    right: -18vmax;
+    width: 44vmax;
+    height: 44vmax;
+    background: radial-gradient(
+      circle,
+      var(--arcade-blinky-glow, rgba(246, 99, 99, 0.16)),
+      transparent 65%
+    );
+  }
+
+  .glow-yellow,
+  .glow--pac {
+    top: 62vh;
+    left: -15vmax;
+    width: 34vmax;
+    height: 34vmax;
+    background: radial-gradient(
+      circle,
+      var(--arcade-pac-glow, rgba(255, 212, 0, 0.07)),
+      transparent 66%
+    );
+    animation-duration: 24s;
+  }
+
+  @keyframes javan-dots-drift {
+    to {
+      background-position: 12px 36px;
+    }
+  }
+
+  @keyframes javan-glow-drift {
+    to {
+      transform: translate(-3%, 5%);
+    }
+  }
+
+  /* Brand pellets (header lockup). */
+  .pellets {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pellets i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--yellow, var(--javan-yellow));
+    box-shadow: 0 0 7px rgba(255, 212, 0, 0.35);
+  }
+
+  .pellets i:last-child {
+    width: 10px;
+    height: 10px;
+    animation: javan-pellet-blink 0.75s steps(1) infinite;
+  }
+
+  @keyframes javan-pellet-blink {
+    50% {
+      opacity: 0.2;
+    }
+  }
+
+  /* Mono CTA buttons. */
+  .button {
+    display: inline-flex;
+    min-height: 50px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 0 18px;
+    border: 1px solid var(--line-strong, var(--javan-line-strong));
+    font: 600 13px var(--mono, var(--javan-mono));
+    transition:
+      background 0.18s ease,
+      color 0.18s ease,
+      border-color 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  .button:hover {
+    transform: translateY(-2px);
+  }
+
+  .button-primary {
+    border-color: var(--bronze, var(--javan-accent));
+    background: var(--bronze, var(--javan-accent));
+    color: #111;
+  }
+
+  .button-primary:hover {
+    border-color: var(--javan-accent-hover, #e5b98a);
+    background: var(--javan-accent-hover, #e5b98a);
+  }
+
+  .button-quiet:hover {
+    border-color: var(--bronze, var(--javan-accent));
+    background: var(--panel-raised, var(--javan-surface));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dots,
+    .glow,
+    .pellets i:last-child {
+      animation: none !important;
+    }
+
+    .button {
+      transition: none;
+    }
+  }
+
