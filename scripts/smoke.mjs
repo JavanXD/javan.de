@@ -49,7 +49,8 @@ expectBody("wp-login.php", login, /loginform|WordPress/i);
 
 for (const blocked of ["/xmlrpc.php", "/readme.html", "/license.txt"]) {
   const res = await request(apex, blocked, { redirect: "manual" });
-  expectStatus(`blocked ${blocked}`, res, 404);
+  // Worker 404 or Free WAF Block (403) both keep scanners off the origin.
+  expectStatusOneOf(`blocked ${blocked}`, res, [403, 404]);
 }
 
 const admin = await request(apex, "/wp-admin/", { redirect: "manual" });
@@ -88,8 +89,14 @@ async function request(origin, pathname, init = {}) {
 }
 
 function expectStatus(label, response, status) {
+  expectStatusOneOf(label, response, [status]);
+}
+
+function expectStatusOneOf(label, response, statuses) {
   if (!response) return;
-  if (response.status !== status) failures.push(`${label} returned ${response.status}, expected ${status}`);
+  if (!statuses.includes(response.status)) {
+    failures.push(`${label} returned ${response.status}, expected ${statuses.join(" or ")}`);
+  }
 }
 
 function expectHeader(label, response, name, pattern) {
