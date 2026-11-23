@@ -79,7 +79,7 @@ Standing rule: **if it does not consume Worker quota, it is better.** Worker `fe
 - [x] **SHORT_LINKS** (`/zoom` etc.) — on **`_redirects`** (0 Worker quota). Zone slots stay for lab host 301s (now 10/10 including www). Worker copy is fallback.
 - [ ] **Optional — rate-limit unknown permalinks** (paths that are not landing assets, not known article slugs, not `/wp-login.php`/`/wp-admin/`): per-IP cap via CF Rate Limiting binding or DO so a single scanner IP cannot burn tens of thousands of origin fetches/day. Return 429 (or edge 404) when exceeded.
 - [ ] **Optional — WAF custom rules** on zone `javan.de` for scanner/junk paths / high-rate 404 bursts (Free ≤5 rules, no regex). Prefer edge block over Paid WAF. **Do not** enable Bot Fight Mode (see [`CLOUDFLARE-BASELINE.md`](../../rasok.at/docs/CLOUDFLARE-BASELINE.md#indexing--ai-crawlers)).
-- [ ] **Confirm leftover lab Workers** on Javan are deleted after rasok cutovers (umbrella Javan cleanup) so scans of old hosts cannot steal from this same 100k pool.
+- [x] **Confirm leftover lab Workers** on Javan are deleted after rasok cutovers (umbrella Javan cleanup) so scans of old hosts cannot steal from this same 100k pool. *(2026-11-23: account script list is only intentional hosts — about/blog/imprint/javan-de/projects/secure-coding/training/unagentic + `javan-de-lab-host-redirects` for asec.app 301s + clipdictate/email-spam-drop/automation-companion-alerts. No orphan lab Workers.)*
 
 ### Done when
 
