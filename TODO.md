@@ -5,6 +5,8 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - [x] **Shared SEO @javan/web 0.2.0 (2026-11-22).** shareMetaTags/chromeHeadTags + Person `@id` https://javan.de/#person + AI robots Allow list (14) + theme-color/color-scheme defaults. Vendored `social/` + `seo/`.
 - [x] **SEO harden + footer RSS @javan/web 0.2.2 (2026-11-23).** Solid white mail + RSS chips; apex `og-image.jpg` in defaults; share-meta markers on static hosts; Person compact on imprint/unagentic/secure-coding; privacy OG dims; catalog AI robots; apex Sitemap dedupe.
 - [x] **Footer CSS isolation @javan/web 0.2.3 (2026-11-23).** Vendored `javan-footer.css` ships unlayered (host `@layer` CSS can no longer restyle it); stronger link resets; imprint/training host overrides trimmed; privacy opacity override removed.
+- [x] **Shared CSS tokens Wave 1 @javan/web 0.2.4 (2026-11-23).** Arcade `--javan-*` tokens + `javan-tokens.css`; blog + projects alias bridges and split stylesheets. Look unchanged.
+- [ ] **Shared CSS Wave 2 (deferred).** unagentic (`--void: #000`); secure-coding bronze `#e0b07c` drift; about light mode; training hub/catalog twin CSS; imprint serif identity; apex arcade inline CSS + CSP.
 
 ## Current / next / ops
 
