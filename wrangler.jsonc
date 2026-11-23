@@ -6,7 +6,7 @@
   "account_id": "d4190a56f523423d2c5e6fa542932c35",
   "main": "src/index.js",
   "compatibility_date": "2026-08-29",
-  "workers_dev": true,
+  "workers_dev": false,
   "preview_urls": false,
   "observability": {
     "enabled": true,
