@@ -13,7 +13,7 @@ Working queue for the arcade landing Worker that sits in front of WordPress on `
 - [x] **Footer RSS label @javan/web 0.2.7 (2026-11-23).** RSS link matches mail: icon + visible `RSS` text (not icon-only).
 - [x] **Footer place line @javan/web 0.2.8 (2026-11-23).** `Made in Black Forest, Germany 🌲` (was BW).
 - [x] **Shared CSS Wave 6 hygiene (2026-11-23).** Keep package `base.css` unused on hosts; keep unagentic unique atmosphere; apex host `styles/arcade.css` stays. Sync scripts also resolve `02-library/web` (SSOT) beside `brand-system/web`.
-- [x] **Post-wave gap fix (2026-11-23).** `workers_dev: false` on blog + apex (custom-domain-only baseline). SC CTA external buttons use `aria-label` for new-tab hint; `.visually-hidden` gains `clip-path: inset(50%)`.
+- [x] **Post-wave gap fix (2026-11-23).** `workers_dev: false` on blog + apex (custom-domain-only baseline). Config test expects `workers_dev`/`preview_urls` false. SC CTA external buttons use `aria-label` for new-tab hint; `.visually-hidden` gains `clip-path: inset(50%)`.
 - [x] **Wave 7 ops hygiene (2026-11-23).** Apex `npm run validate` green after arcade extract (`style-src 'self'` + SVG hashes). Training hub: `npm run deploy:hub` mirrors CI (sync `@javan/web` + catalog export + wrangler) when `javan-training` Actions billing blocks.
 
 ## Current / next / ops
