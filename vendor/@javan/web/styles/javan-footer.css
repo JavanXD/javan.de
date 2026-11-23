@@ -1,5 +1,4 @@
-@layer tokens {
-  :root {
+:root {
     color-scheme: dark;
     --javan-bg: #0f0f0f;
     --javan-surface: #141414;
@@ -22,10 +21,9 @@
     --javan-radius: 3px;
     --javan-footer-max: 62rem;
   }
-}
 
-@layer components {
-  .javan-footer {
+
+.javan-footer {
     display: flex;
     flex-wrap: wrap;
     gap: var(--javan-space-3) var(--javan-space-5);
@@ -40,27 +38,41 @@
     letter-spacing: 0.04em;
   }
 
-  /* Reset host-page nav/link chrome so footer links stay inline text. */
+  /* Reset host-page link chrome (underlines, borders, pills, uppercase). */
   .javan-footer a {
     display: inline;
     min-height: 0;
+    min-width: 0;
     padding: 0;
+    margin: 0;
     border: 0;
+    border-bottom: 0;
     border-radius: 0;
     background: none;
     color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: none;
     text-decoration: none;
     box-shadow: none;
     transform: none;
+    filter: none;
+    opacity: 1;
     grid-template-columns: none;
     gap: 0;
   }
 
-  .javan-footer a:hover {
+  .javan-footer a:hover,
+  .javan-footer a:focus {
     color: var(--javan-accent);
     background: none;
-    border-color: transparent;
+    border: 0;
+    border-bottom: 0;
+    text-decoration: none;
+    box-shadow: none;
     transform: none;
+    filter: none;
+    opacity: 1;
   }
 
   .javan-footer a:focus-visible {
@@ -139,4 +151,4 @@
       margin-left: auto;
     }
   }
-}
+
