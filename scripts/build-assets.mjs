@@ -29,6 +29,9 @@ for (const name of await readdir(publicDir)) {
 // Shared @javan/web footer CSS + assets (pinned vendor copy).
 await cp(join(vendorWeb, "styles"), join(dist, "styles"), { recursive: true });
 await cp(join(vendorWeb, "assets"), join(dist, "assets"), { recursive: true });
+// Apex arcade landing stylesheet (host chrome; tokens come from javan-tokens.css).
+await mkdir(join(dist, "styles"), { recursive: true });
+await copyFile(join(root, "styles", "arcade.css"), join(dist, "styles", "arcade.css"));
 
 await writeFile(join(dist, "_redirects"), staticRedirectsFile());
 
