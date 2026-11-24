@@ -173,10 +173,9 @@
     vertical-align: middle;
   }
 
-  /* RSS: framed transparent chip + currentColor mark (inverted vs mail’s white chip + dark mark). */
+  /* RSS: framed transparent chip + white mark in the SVG (inverted vs mail’s white chip + dark mark). */
   .javan-footer__rss-icon {
-    color: #ffffff;
-    border-color: currentColor;
+    border-color: #ffffff;
     background: transparent;
   }
 
@@ -209,6 +208,11 @@
       align-items: flex-end;
       margin-left: 0;
       gap: 0.3rem;
+    }
+
+    .javan-footer__place {
+      letter-spacing: 0.03em;
+      flex-wrap: nowrap;
     }
   }
 

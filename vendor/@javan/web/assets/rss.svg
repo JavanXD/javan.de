@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 9" width="15" height="9" aria-hidden="true" focusable="false">
-  <!-- Transparent chip + currentColor mark (reads white on dark footers; pair to mail white chip + dark mark). Frame via CSS border. -->
-  <circle cx="3.4" cy="6.5" r="1.05" fill="currentColor"/>
-  <path fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" d="M3.4 4.05a2.55 2.55 0 0 1 2.55 2.55"/>
-  <path fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" d="M3.4 2.15a4.45 4.45 0 0 1 4.45 4.45"/>
+  <!-- Transparent chip + white RSS mark (pair to mail: white fill + dark mark); frame via CSS border. Hardcoded white — SVG as <img> ignores CSS color. -->
+  <circle cx="3.4" cy="6.5" r="1.05" fill="#ffffff"/>
+  <path fill="none" stroke="#ffffff" stroke-width="1.15" stroke-linecap="round" d="M3.4 4.05a2.55 2.55 0 0 1 2.55 2.55"/>
+  <path fill="none" stroke="#ffffff" stroke-width="1.15" stroke-linecap="round" d="M3.4 2.15a4.45 4.45 0 0 1 4.45 4.45"/>
 </svg>
