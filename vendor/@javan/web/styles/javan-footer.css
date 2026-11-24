@@ -48,13 +48,15 @@
     gap: var(--javan-space-3) var(--javan-space-5);
     width: min(100%, var(--javan-footer-max));
     margin: 0 auto;
-    padding: var(--javan-space-5) clamp(1.25rem, 4vw, 2rem) var(--javan-space-4);
+    padding: var(--javan-space-5) clamp(0.75rem, 3vw, 2rem) var(--javan-space-4);
     border-top: 1px solid var(--javan-line);
     color: var(--javan-muted);
     font-family: var(--javan-mono);
     font-size: 0.7rem;
     line-height: 1.55;
     letter-spacing: 0.04em;
+    container-type: inline-size;
+    container-name: javan-footer;
   }
 
   /* Reset host-page link chrome (underlines, borders, pills, uppercase). */
@@ -128,14 +130,30 @@
   .javan-footer__identity {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: space-between;
     gap: 0.55rem 1.25rem;
     width: 100%;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-size: 0.65rem;
-    container-type: inline-size;
-    container-name: javan-footer-identity;
+  }
+
+  .javan-footer__identity-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem 1.25rem;
+    min-width: 0;
+  }
+
+  .javan-footer__identity-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.55rem 1.25rem;
+    margin-left: auto;
   }
 
   .javan-footer__place {
@@ -155,6 +173,13 @@
     vertical-align: middle;
   }
 
+  /* RSS: framed transparent chip + currentColor mark (inverted vs mail’s white chip + dark mark). */
+  .javan-footer__rss-icon {
+    color: #ffffff;
+    border-color: currentColor;
+    background: transparent;
+  }
+
   .javan-footer a.javan-footer__mail,
   .javan-footer a.javan-footer__rss {
     display: inline-flex;
@@ -164,10 +189,26 @@
     letter-spacing: 0.02em;
   }
 
-  /* Right-align Imprint only when the identity row has room (no forced wrap). */
-  @container javan-footer-identity (min-width: 42rem) {
-    .javan-footer__imprint {
-      margin-left: auto;
+  /* Narrow: two columns — name/place left, mail/RSS/Imprint right, top-aligned. */
+  @container javan-footer (max-width: 36rem) {
+    .javan-footer__identity {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 0.4rem 0.75rem;
+    }
+
+    .javan-footer__identity-main {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.3rem;
+    }
+
+    .javan-footer__identity-actions {
+      flex-direction: column;
+      align-items: flex-end;
+      margin-left: 0;
+      gap: 0.3rem;
     }
   }
 
